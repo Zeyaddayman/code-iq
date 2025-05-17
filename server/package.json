@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "nodemon src/index.js",
+    "build": "npm ci --omit=dev && prisma generate",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
