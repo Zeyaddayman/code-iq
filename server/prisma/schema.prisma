@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Question {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  answers     String[]
+  correct     String
+  category    String
+}

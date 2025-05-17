@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #fa3e3e;
+    --secondary-color: #179bff;
+    --dark-blue-color: #457b9d;
+    --soft-while-color: #e9ebee;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    font-weight: 600;
+}
