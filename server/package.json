@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "build": "npm ci --omit=dev && prisma generate",
-    "start": "node dist/index.js"
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
