@@ -1,6 +1,6 @@
 import { FormEvent, useState } from "react";
 import SelectMenu from "./ui/SelectMenu";
-import { categories } from "../constants";
+import { CATEGORIES } from "../constants";
 import Button from "./ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { selectQuizInfo, setQuizCategory, setQuizStarted } from "../app/features/quizInfoSlice";
@@ -28,7 +28,7 @@ const QuizStarterForm = () => {
     return (
         <form onSubmit={startQuiz}>
             <div className="mb-8">
-                <SelectMenu title="choose category" options={categories} selected={category} setSelected={setCategory} />
+                <SelectMenu title="choose category" options={CATEGORIES} selected={category} setSelected={setCategory} />
             </div>
             <Button className="bg-dark-blue-color px-6 mx-auto" width="fit">Start Quiz</Button>
         </form>

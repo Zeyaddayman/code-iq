@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { ICategory, IUserAnswers } from '../../interfaces';
 import { RootState } from '../store';
-import { categories } from '../../constants';
+import { CATEGORIES } from '../../constants';
 
 interface IQuizInfo {
     quizStarted: boolean;
@@ -12,7 +12,7 @@ interface IQuizInfo {
 
 const initialState: IQuizInfo = {
     quizStarted: false,
-    category: JSON.parse(localStorage.getItem("quizCategory") || JSON.stringify(categories[0])) || categories[0],
+    category: JSON.parse(localStorage.getItem("quizCategory") || JSON.stringify(CATEGORIES[0])) || CATEGORIES[0],
     userAnswers: {}
 }
 

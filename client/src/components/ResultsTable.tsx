@@ -3,7 +3,7 @@ import { selectResults } from "../app/features/resultsSlice"
 import { useEffect, useState } from "react"
 import SelectMenu from "./ui/SelectMenu"
 import { ICategory, IResult, ISelectMenuOption } from "../interfaces"
-import { categories } from "../constants"
+import { CATEGORIES } from "../constants"
 
 const sortByTimeOptions: ISelectMenuOption[] = [
     {
@@ -24,7 +24,7 @@ const categoriesWithAll: ICategory[] = [
         name: "All",
         slug: "all"
     },
-    ...categories
+    ...CATEGORIES
 ]
 
 const ResultsTable = () => {
