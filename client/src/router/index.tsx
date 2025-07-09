@@ -8,16 +8,14 @@ import ResultsPage from "../pages/ResultsTablePage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <>
-            <Route path="/" element={<RootLayout />} >
-                <Route index element={<HomePage />} />
-                <Route path="questions" element={<QuestionsPage />} />
-                <Route path="result" element={<ResultPage />} />
-                <Route path="results" element={<ResultsPage />} />
-            </Route>
+        <Route path="/" element={<RootLayout />} >
+            <Route index element={<HomePage />} />
+            <Route path="questions" element={<QuestionsPage />} />
+            <Route path="result" element={<ResultPage />} />
+            <Route path="results" element={<ResultsPage />} />
 
             <Route path="*" element={<PageNotFound />} />
-        </>
+        </Route>
     )
 )
 

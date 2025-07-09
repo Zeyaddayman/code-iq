@@ -22,13 +22,13 @@ export const CATEGORIES: ICategory[] = [
         id: crypto.randomUUID(),
         name: "Python",
         slug: "python",
-        icon: `${WEBSITE_URL}/images/python.png`
+        icon: `images/python.png`
     },
     {
         id: crypto.randomUUID(),
         name: "Javascript",
         slug: "javascript",
-        icon: `${WEBSITE_URL}/images/js.png`
+        icon: `/images/js.png`
     },
     // {
     //     id: crypto.randomUUID(),
@@ -36,4 +36,22 @@ export const CATEGORIES: ICategory[] = [
     //     slug: "c-plus-plus",
     //     icon: `${WEBSITE_URL}/images/cplusplus.png`
     // }
+]
+
+export const THEMES: {
+    name: string;
+    color: string;
+}[] = [
+    {
+        name: "Blueberry",
+        color: "#0b99ff"
+    },
+    {
+        name: "Mint",
+        color: "#00b09f"
+    },
+    {
+        name: "Dark",
+        color: "#242424"
+    }
 ]

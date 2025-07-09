@@ -13,9 +13,9 @@ const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
     return (
         <Listbox value={selected} onChange={setSelected}>
             <div className='flex flex-col flex-1'>
-                <Label className="text-sm/6 font-medium text-gray-900">{ title }</Label>
-                <div className="relative mt-2">
-                    <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm/6">
+                <Label className="text-xl mb-3 font-semibold">{ title }</Label>
+                <div className="relative">
+                    <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-color sm:text-sm/6">
                         <span className="flex items-center">
                             {selected.icon && (
                                 <img alt="" src={selected.icon} className="size-5 shrink-0 rounded-full" />
@@ -46,7 +46,7 @@ const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
                                     </span>
                                 </div>
 
-                                <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-indigo-600 group-data-[focus]:text-white [.group:not([data-selected])_&]:hidden">
+                                <span className="absolute inset-y-0 right-0 flex items-center pr-4 text-primary-color group-data-[focus]:text-white [.group:not([data-selected])_&]:hidden">
                                     <CheckIcon aria-hidden="true" className="size-5" />
                                 </span>
                             </ListboxOption>
