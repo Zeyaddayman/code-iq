@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { ICategory, IUserAnswers } from '../../interfaces';
+import { ILanguage, IUserAnswers } from '../../interfaces';
 import { RootState } from '../store';
-import { CATEGORIES } from '../../constants';
+import { LANGUAGES } from '../../constants';
 
 interface IQuizInfo {
     quizStarted: boolean;
-    category: ICategory;
+    language: ILanguage;
     userAnswers: IUserAnswers
 }
 
 const initialState: IQuizInfo = {
     quizStarted: false,
-    category: JSON.parse(localStorage.getItem("quizCategory") || JSON.stringify(CATEGORIES[0])) || CATEGORIES[0],
+    language: JSON.parse(localStorage.getItem("quizLanguage") || JSON.stringify(LANGUAGES[0])) || LANGUAGES[0],
     userAnswers: {}
 }
 
@@ -20,9 +20,9 @@ export const quizInfoSlice = createSlice({
     name: 'quizInfo',
     initialState,
     reducers: {
-        setQuizCategory: (state, action: PayloadAction<ICategory>) => {
-            state.category = action.payload;
-            localStorage.setItem("quizCategory", JSON.stringify(action.payload))
+        setQuizLanguage: (state, action: PayloadAction<ILanguage>) => {
+            state.language = action.payload;
+            localStorage.setItem("quizLanguage", JSON.stringify(action.payload))
         },
         setQuizStarted: (state, action: PayloadAction<boolean>) => {
             state.quizStarted = action.payload;
@@ -34,7 +34,7 @@ export const quizInfoSlice = createSlice({
 })
 
 export const { 
-    setQuizCategory,
+    setQuizLanguage,
     setQuizStarted,
     setUserAnswers
     

@@ -11,7 +11,7 @@ import { QUIZ_DURATION } from "../constants";
 
 const QuestionsPage = () => {
 
-    const { userAnswers, quizStarted, category } = useSelector(selectQuizInfo);
+    const { userAnswers, quizStarted, language } = useSelector(selectQuizInfo);
 
     const [data, setData] = useState<{ questions: IQuestion[] } | null>();
     const [index, setIndex] = useState(0);
@@ -21,7 +21,7 @@ const QuestionsPage = () => {
 
     useEffect(() => {
         if (quizStarted) {
-            fetch(`http://localhost:4000/api/questions?category=${category.slug}`)
+            fetch(`http://localhost:4000/api/questions?language=${language.slug}`)
                 .then((res) => res.json())
                 .then((data) => {
                     return setData(data.data);
@@ -30,7 +30,7 @@ const QuestionsPage = () => {
             navigate("/")
         }
 
-    }, [category.slug, navigate, quizStarted])
+    }, [language.slug, navigate, quizStarted])
 
     if (!data) {
         return <QuestionSkeleton />;

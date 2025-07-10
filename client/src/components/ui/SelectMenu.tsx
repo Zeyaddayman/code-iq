@@ -15,7 +15,7 @@ const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
             <div className='flex flex-col flex-1'>
                 <Label className="text-xl mb-3 font-semibold">{ title }</Label>
                 <div className="relative">
-                    <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-color sm:text-sm/6">
+                    <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-color sm:text-sm/6">
                         <span className="flex items-center">
                             {selected.icon && (
                                 <img alt="" src={selected.icon} className="size-5 shrink-0 rounded-full" />
@@ -33,9 +33,9 @@ const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
                     >
                         {options.map((option) => (
                             <ListboxOption
-                                key={option.id}
+                                key={option.slug}
                                 value={option}
-                                className="group relative cursor-default overflow-y-hidden select-none py-2 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
+                                className="group relative cursor-default overflow-y-hidden select-none py-3 pl-3 pr-9 text-gray-900 data-[focus]:bg-indigo-600 data-[focus]:text-white"
                             >
                                 <div className="flex items-center">
                                     {option.icon && (

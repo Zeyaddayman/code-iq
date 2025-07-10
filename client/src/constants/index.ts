@@ -1,6 +1,4 @@
-import { ICategory } from "../interfaces"
-
-export const WEBSITE_URL = "https://programming-quizz-app.netlify.app"
+import { ILanguage } from "../interfaces"
 
 export const QUIZ_DURATION = 3 // minutes
 
@@ -12,36 +10,29 @@ export const RULES = [
     'The result will be declared at the end of the quiz.'
 ]
 
-export const CATEGORIES: ICategory[] = [
+export const LANGUAGES: ILanguage[] = [
     // {
-    //     id: crypto.randomUUID(),
     //     name: "Java",
     //     slug: "java",
     // },
     {
-        id: crypto.randomUUID(),
         name: "Python",
         slug: "python",
         icon: `images/python.png`
     },
     {
-        id: crypto.randomUUID(),
         name: "Javascript",
         slug: "javascript",
-        icon: `/images/js.png`
+        icon: `images/js.png`
     },
-    // {
-    //     id: crypto.randomUUID(),
-    //     name: "C++",
-    //     slug: "c-plus-plus",
-    //     icon: `${WEBSITE_URL}/images/cplusplus.png`
-    // }
+    {
+        name: "C++",
+        slug: "c-plus-plus",
+        icon: `images/cplusplus.png`
+    }
 ]
 
-export const THEMES: {
-    name: string;
-    color: string;
-}[] = [
+export const THEMES = [
     {
         name: "Blueberry",
         color: "#0b99ff"
@@ -54,4 +45,8 @@ export const THEMES: {
         name: "Dark",
         color: "#242424"
     }
-]
+] as const
+
+export type ThemeName = typeof THEMES[number]["name"]
+
+export const DEFAULT_THEME_NAME: ThemeName = "Blueberry"

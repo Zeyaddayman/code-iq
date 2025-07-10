@@ -2,32 +2,25 @@ export interface IQuestion {
     id: string;
     title: string;
     answers: string[];
-    category: string
+    language: string;
 }
-
-export interface ICategory {
-    id: string;
-    name: string;
-    slug: string;
-    icon?: string;
-}
-
 export interface ISelectMenuOption {
-    id: string;
     name: string;
     slug: string;
     icon?: string;
 }
+
+export type ILanguage = ISelectMenuOption
 
 export interface IUserAnswers { [id: string]: string }
 
 export interface IResult {
     date: Date;
-    categoryName: string;
+    languageName: string;
     attempts: number;
     questions: number;
     quizPoints: number;
     earnedPoints: number;
     percentage: number;
-    isPassed: boolean
+    isPassed: boolean;
 }

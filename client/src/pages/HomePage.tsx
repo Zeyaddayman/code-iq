@@ -1,9 +1,9 @@
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import { CATEGORIES, RULES } from "../constants";
+import { LANGUAGES, RULES } from "../constants";
 import SelectMenu from "../components/ui/SelectMenu";
 import { useDispatch, useSelector } from "react-redux";
-import { selectQuizInfo, setQuizCategory } from "../app/features/quizInfoSlice";
-import { ICategory } from "../interfaces";
+import { selectQuizInfo, setQuizLanguage } from "../app/features/quizInfoSlice";
+import { ILanguage } from "../interfaces";
 import ThemeSwitcher from "../components/ui/ThemeSwitcher";
 import { Link } from "react-router-dom";
 
@@ -17,7 +17,7 @@ const HomePage = () => {
                     <ul className="flex flex-col gap-2">
                         {RULES.map((rule, i) => (
                             <li key={i} className="flex items-center gap-2">
-                                <CheckCircleIcon width={20} height={20} className="flex-shrink-0" /> {rule}
+                                <CheckCircleIcon width={20} height={20} className="flex-shrink-0 text-primary-color" /> {rule}
                             </li>
                         ))}
                     </ul>
@@ -39,29 +39,29 @@ const HomePage = () => {
 
 const SelectLanguageMenu = () => {
 
-    const { category } = useSelector(selectQuizInfo);
+    const { language } = useSelector(selectQuizInfo);
     const dispatch = useDispatch();
 
-    const setSelectedQuizCategory = (category: ICategory) => {
-        dispatch(setQuizCategory(category));
+    const setSelectedQuizLanguage = (language: ILanguage) => {
+        dispatch(setQuizLanguage(language));
     }
 
     return (
         <SelectMenu
             title="Select Language"
-            options={CATEGORIES}
-            selected={category}
-            setSelected={setSelectedQuizCategory}
+            options={LANGUAGES}
+            selected={language}
+            setSelected={setSelectedQuizLanguage}
         />
     )
 }
 
 const StartQuizButton = () => {
-    const { category } = useSelector(selectQuizInfo);
+    const { language } = useSelector(selectQuizInfo);
 
     return (
         <Link
-            to={`/questions?category=${category.slug}`}
+            to={`/questions?language=${language.slug}`}
             className="block w-full text-center bg-primary-color text-white px-6 py-4 rounded-md"
         >
             Start Quiz

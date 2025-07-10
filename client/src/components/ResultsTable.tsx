@@ -2,29 +2,26 @@ import { useSelector } from "react-redux"
 import { selectResults } from "../app/features/resultsSlice"
 import { useEffect, useState } from "react"
 import SelectMenu from "./ui/SelectMenu"
-import { ICategory, IResult, ISelectMenuOption } from "../interfaces"
-import { CATEGORIES } from "../constants"
+import { IResult, ISelectMenuOption } from "../interfaces"
+import { LANGUAGES } from "../constants"
 
 const sortByTimeOptions: ISelectMenuOption[] = [
     {
-        id: crypto.randomUUID(),
         name: "Oldest",
         slug: "oldest"
     },
     {
-        id: crypto.randomUUID(),
         name: "Newest",
         slug: "newest"
-    },
+    }
 ]
 
-const categoriesWithAll: ICategory[] = [
+const languagesWithAll: ISelectMenuOption[] = [
     {
-        id: crypto.randomUUID(),
         name: "All",
         slug: "all"
     },
-    ...CATEGORIES
+    ...LANGUAGES
 ]
 
 const ResultsTable = () => {
@@ -33,7 +30,7 @@ const ResultsTable = () => {
 
     const [filters, setFilters] = useState({
         sortByTime: sortByTimeOptions[1],
-        sortByCategory: categoriesWithAll[0]
+        sortByLanguage: languagesWithAll[0]
     })
 
     const [filteredData, setFilteredData] = useState<IResult[]>(results)
@@ -42,19 +39,19 @@ const ResultsTable = () => {
         setFilters((prev) => ({...prev, sortByTime: newSortByTime}))
     }
 
-    const setSortByCategory = (newSortByCategory: ISelectMenuOption) => {
-        setFilters((prev) => ({...prev, sortByCategory: newSortByCategory}))
+    const setSortByLanguage = (newSortByLanguage: ISelectMenuOption) => {
+        setFilters((prev) => ({...prev, sortByLanguage: newSortByLanguage}))
     }
 
     useEffect(() => {
 
         let newFilteredData
 
-        if (filters.sortByCategory.slug === "all") {
+        if (filters.sortByLanguage.slug === "all") {
             newFilteredData = results.filter(() => true)
         } else {
             newFilteredData = results.filter((result) => {
-                return result.categoryName === filters.sortByCategory.name
+                return result.languageName === filters.sortByLanguage.name
             })
         }
 
@@ -64,7 +61,7 @@ const ResultsTable = () => {
             newFilteredData = newFilteredData.reverse()
             setFilteredData(newFilteredData)
         }
-    }, [filters.sortByCategory.name, filters.sortByCategory.slug, filters.sortByTime.slug, results])
+    }, [filters.sortByLanguage.name, filters.sortByLanguage.slug, filters.sortByTime.slug, results])
 
     const calculateTotalPassed = () => {
         return filteredData.filter((result) => result.isPassed).length
@@ -80,10 +77,10 @@ const ResultsTable = () => {
                 setSelected={setSortByTime}
             />
             <SelectMenu
-                title={"sort by category"}
-                selected={filters.sortByCategory}
-                options={categoriesWithAll}
-                setSelected={setSortByCategory}
+                title={"sort by language"}
+                selected={filters.sortByLanguage}
+                options={languagesWithAll}
+                setSelected={setSortByLanguage}
             />
         </div>
         {filteredData.length < 1 ? (
@@ -97,7 +94,7 @@ const ResultsTable = () => {
                                 Date
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Category
+                                Language
                             </th>
                             <th scope="col" className="px-6 py-3">
                                 Attempts
@@ -120,7 +117,7 @@ const ResultsTable = () => {
                                     {new Date(result.date).toLocaleDateString()}
                                 </td>
                                 <td className="px-6 py-4">
-                                    {result.categoryName}
+                                    {result.languageName}
                                 </td>
                                 <td className="px-6 py-4">
                                     {result.attempts}/{result.questions}

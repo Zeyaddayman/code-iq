@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const ResultPage = () => {
 
-    const { quizStarted, userAnswers, category } = useSelector(selectQuizInfo);
+    const { quizStarted, userAnswers, language } = useSelector(selectQuizInfo);
     const { results } = useSelector(selectResults)
 
     const [currentResult, setCurrentResult] = useState<IResult | null>(null);
@@ -23,7 +23,7 @@ const ResultPage = () => {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    categoryName: category.name,
+                    languageName: language.name,
                     userAnswers
                 })
             })
