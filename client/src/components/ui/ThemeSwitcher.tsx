@@ -1,18 +1,41 @@
 import { useState } from "react"
-import { THEMES } from "../../constants"
+import { DEFAULT_THEME_NAME, ThemeName, THEMES } from "../../constants"
+
+const getDefaultTheme = (): ThemeName => {
+    let themeName: ThemeName
+
+    const savedTheme = localStorage.getItem("theme")
+
+    if (savedTheme && THEMES.some(theme => theme.name === savedTheme)) {
+        themeName = savedTheme as ThemeName
+    } else {
+        themeName = window.matchMedia("(prefers-color-scheme: dark)").matches ? "Dark" : DEFAULT_THEME_NAME
+    }
+
+    document.body.setAttribute("data-theme", themeName)
+    localStorage.setItem("theme", themeName)
+
+    return themeName
+}
 
 const ThemeSwitcher = () => {
 
-    const [checked, setChecked] = useState("Mint")
+    const [themeName, setThemeName] = useState(getDefaultTheme())
+
+    const handleChangeTheme = (themeName: ThemeName) => {
+        document.body.setAttribute("data-theme", themeName)
+        localStorage.setItem("theme", themeName)
+        setThemeName(themeName)
+    }
 
     return (
         <div className="flex items-center gap-4">
             {THEMES.map((theme) => (
                 <button
                     key={theme.name}
-                    className={`h-12 flex-1 text-white rounded-md transition ${checked === theme.name ? "opacity-100" : "opacity-60"}`}
+                    className={`h-12 flex-1 text-white rounded-md transition ${themeName === theme.name ? "opacity-100" : "opacity-60"}`}
                     style={{ backgroundColor: theme.color }}
-                    onClick={() => setChecked(theme.name)}
+                    onClick={() => handleChangeTheme(theme.name)}
                 >
                     {theme.name}
                 </button>
