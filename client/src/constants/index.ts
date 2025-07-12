@@ -34,8 +34,8 @@ export const LANGUAGES: ILanguage[] = [
 
 export const THEMES = [
     {
-        name: "Blueberry",
-        color: "#0b99ff"
+        name: "Blue",
+        color: "#277eff"
     },
     {
         name: "Mint",
@@ -49,4 +49,4 @@ export const THEMES = [
 
 export type ThemeName = typeof THEMES[number]["name"]
 
-export const DEFAULT_THEME_NAME: ThemeName = "Blueberry"
+export const DEFAULT_THEME_NAME: ThemeName = "Blue"

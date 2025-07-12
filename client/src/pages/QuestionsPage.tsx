@@ -1,39 +1,42 @@
 import { useDispatch, useSelector } from "react-redux"
-import { selectQuizInfo, setUserAnswers } from "../app/features/quizInfoSlice";
-import { useNavigate } from "react-router-dom";
+import { selectQuizInfo, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IQuestion } from "../interfaces";
 import Question from "../components/Question";
 import CountDown from "../components/CountDown";
-import QuestionSkeleton from "../components/QuestionSkeleton";
 import Controllers from "../components/Controllers";
-import { QUIZ_DURATION } from "../constants";
+import { LANGUAGES, QUIZ_DURATION } from "../constants";
+
+let languageName: string
 
 const QuestionsPage = () => {
 
-    const { userAnswers, quizStarted, language } = useSelector(selectQuizInfo);
+    const { userAnswers } = useSelector(selectQuizInfo);
+    const [searchParams] = useSearchParams();
 
-    const [data, setData] = useState<{ questions: IQuestion[] } | null>();
+    const [questions, setQuestions] = useState<IQuestion[] | null >(null);
     const [index, setIndex] = useState(0);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (quizStarted) {
-            fetch(`http://localhost:4000/api/questions?language=${language.slug}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    return setData(data.data);
-                })
-        } else {
-            navigate("/")
-        }
+        const languageParam = searchParams.get("language")
+        fetch(`http://localhost:4000/api/questions?language=${languageParam}`)
+            .then((res) => res.json())
+            .then((data) => {
+                const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language)
+                languageName = matchLanguage!.name
 
-    }, [language.slug, navigate, quizStarted])
+                dispatch(setQuizStarted(true));
+                setQuestions(data.questions);
+            })
 
-    if (!data) {
-        return <QuestionSkeleton />;
+    }, [searchParams, dispatch])
+
+    if (!questions) {
+        return <p>Loading...</p>;
     }
 
     const handleChange = (id: string, answer: string) => {
@@ -49,7 +52,7 @@ const QuestionsPage = () => {
     }
 
     const nextQuestion = () => {
-        if (index === data.questions.length - 1) {
+        if (index === questions.length - 1) {
             finishQuiz();
         } else {
             setIndex(prev => prev + 1);
@@ -61,25 +64,26 @@ const QuestionsPage = () => {
     }
 
     return (
-        <main>
-            <div className="flex gap-3 justify-between mb-5">
-                <div className="text-secondary-color">
-                    {index + 1} / {data.questions.length}
-                </div>
-                <CountDown quizTime={QUIZ_DURATION} finishQuiz={finishQuiz} />
+        <div className="h-full flex flex-col">
+            <div className="flex gap-3 justify-between items-center">
+                <h2 className="text-xl md:text-3xl font-bold">{languageName} Quiz</h2>
+                <CountDown quizTime={QUIZ_DURATION + 20} finishQuiz={finishQuiz} />
+            </div>
+            <div className="text-center my-12 text-gray-500 font-semibold">
+                {index + 1}/{questions.length}
             </div>
             <Question
-                question={data.questions[index]}
+                question={questions[index]}
                 userAnswers={userAnswers}
                 handleChange={handleChange}
             />
             <Controllers
-                questionsLength={data.questions.length}
+                questionsLength={questions.length}
                 index={index}
                 prevQuestion={prevQuestion}
                 nextQuestion={nextQuestion}
             />
-        </main>
+        </div>
     )
 }
 

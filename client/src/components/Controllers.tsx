@@ -9,17 +9,17 @@ interface IProps {
 
 const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IProps) => {
     return (
-        <div className="flex justify-between">
+        <div className="flex flex-1 items-end justify-between gap-5">
             <Button
-                width="fit"
-                className={`${index === 0 ? "invisible" : null} bg-secondary-color px-6`}
+                width="full"
+                className={`${index === 0 ? "invisible" : null} bg-[#e8e8e8] !text-gray-400`}
                 onClick={prevQuestion}
             >
-                Prev
+                Previous
             </Button>
             <Button
-                width="fit"
-                className={`${index !== questionsLength - 1 ? "bg-secondary-color" : "bg-primary-color"} px-6`}
+                width="full"
+                className={`bg-primary-color`}
                 onClick={nextQuestion}
             >
                 {index !== questionsLength - 1 ? "Next" : "Finish"}

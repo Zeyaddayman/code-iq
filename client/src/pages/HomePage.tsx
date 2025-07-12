@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
     return (
-        <section>
+        <>
             <header className="text-4xl font-bold mb-10 text-primary-color text-center">Code IQ</header>
             <div className="space-y-6">
                 <div>
@@ -33,7 +33,7 @@ const HomePage = () => {
                     <StartQuizButton />
                 </div>
             </div>
-        </section>
+        </>
     )
 }
 

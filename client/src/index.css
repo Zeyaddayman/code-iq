@@ -5,11 +5,11 @@
 
 :root {
     --background: #fbfaf9;
-    --primary-color: #0b99ff;
+    --primary-color: #277eff;
 }
 
-body[data-theme="Blueberry"] {
-    --primary-color: #0b99ff;
+body[data-theme="Blue"] {
+    --primary-color: #277eff;
 }
 
 body[data-theme="Mint"] {
@@ -20,7 +20,7 @@ body[data-theme="Dark"] {
     --primary-color: #242424;
 }
 
-@theme inline {
+@theme {
     --color-primary-color: var(--primary-color);
     --color-background: var(--background);
 }

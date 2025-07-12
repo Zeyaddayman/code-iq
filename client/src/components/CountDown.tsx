@@ -26,7 +26,7 @@ const CountDown = ({ quizTime, finishQuiz }: IProps) => {
 
     return (
         <div>
-            Time Left &ensp; <span className="text-secondary-color">{time}</span>
+            <span className="text-primary-color">{time}</span>
         </div>
     )
 }
