@@ -4,9 +4,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IQuestion } from "../interfaces";
 import Question from "../components/Question";
-import CountDown from "../components/CountDown";
 import Controllers from "../components/Controllers";
 import { LANGUAGES, QUIZ_DURATION } from "../constants";
+import Timer from "../components/Timer";
 
 let languageName: string
 
@@ -67,7 +67,10 @@ const QuestionsPage = () => {
         <div className="h-full flex flex-col">
             <div className="flex gap-3 justify-between items-center">
                 <h2 className="text-xl md:text-3xl font-bold">{languageName} Quiz</h2>
-                <CountDown quizTime={QUIZ_DURATION + 20} finishQuiz={finishQuiz} />
+                <Timer
+                    quizDurationSeconds={QUIZ_DURATION * 60}
+                    finishQuiz={finishQuiz}
+                />
             </div>
             <div className="text-center my-12 text-gray-500 font-semibold">
                 {index + 1}/{questions.length}
