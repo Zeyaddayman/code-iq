@@ -13,5 +13,5 @@ model Question {
   title       String
   answers     String[]
   correct     String
-  category    String
+  language    String
 }

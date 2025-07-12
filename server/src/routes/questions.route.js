@@ -7,17 +7,17 @@ const prisma = new PrismaClient()
 
 router.get('/', async (req, res) => {
 
-    const { category } = req.query
+    const { language } = req.query
 
-    if (!category) {
-        return res.status(400).json({status: 'failed'})
+    if (!language) {
+        return res.status(400).json({status: 'failed', message: "Programming language required"})
     }
 
-    // random questions
+    // random questions by language
     const result = await prisma.$runCommandRaw({
         aggregate: 'Question',
         pipeline: [
-            { $match: { category } },
+            { $match: { language } },
             { $sample: { size: QUIZ_QUESTIONS_COUNT } }
         ],
         cursor: {}
@@ -26,11 +26,15 @@ router.get('/', async (req, res) => {
     const questions = result.cursor.firstBatch.map((question) => ({
         id: question._id.$oid,
         title: question.title,
-        category: question.category,
+        language: question.language,
         answers: question.answers,
     }))
 
-    return res.status(200).json({status: 'success', data: { questions }})
+    if (questions.length !== QUIZ_QUESTIONS_COUNT) {
+        return res.status(400).json({status: 'failed', message: "Unvalid programming language"})
+    }
+
+    return res.status(200).json({status: 'success', questions, language })
 })
 
 module.exports = router;
