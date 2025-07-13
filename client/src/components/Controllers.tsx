@@ -8,21 +8,23 @@ interface IProps {
 }
 
 const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IProps) => {
+    const isFirstQuestion = index === 0;
+    const isLastQuestion = index === questionsLength - 1;
     return (
         <div className="flex flex-1 items-end justify-between gap-5">
             <Button
                 width="full"
-                className={`${index === 0 ? "invisible" : null} bg-[#e8e8e8] !text-gray-400`}
+                className={`${isFirstQuestion ? "invisible" : null} bg-[#e8e8e8] !text-gray-400`}
                 onClick={prevQuestion}
             >
                 Previous
             </Button>
             <Button
                 width="full"
-                className={`bg-primary`}
+                className={`${isLastQuestion ? "bg-transparent outline outline-primary text-black" : "bg-primary"}`}
                 onClick={nextQuestion}
             >
-                {index !== questionsLength - 1 ? "Next" : "Finish"}
+                {isLastQuestion ? "Finish" : "Next"}
             </Button>
         </div>
     )
