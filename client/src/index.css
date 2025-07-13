@@ -5,24 +5,20 @@
 
 :root {
     --background: #fbfaf9;
-    --primary-color: #277eff;
+    --primary: 39 126 255;
+    --secondary: 107, 114, 128;
 }
 
 body[data-theme="Blue"] {
-    --primary-color: #277eff;
+    --primary: 39 126 255;
 }
 
 body[data-theme="Mint"] {
-    --primary-color: #00b09f;
+    --primary: 0 176 159;
 }
 
 body[data-theme="Dark"] {
-    --primary-color: #242424;
-}
-
-@theme {
-    --color-primary-color: var(--primary-color);
-    --color-background: var(--background);
+    --primary: 36 36 36;
 }
 
 body {

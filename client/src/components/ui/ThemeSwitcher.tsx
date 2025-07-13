@@ -33,8 +33,8 @@ const ThemeSwitcher = () => {
             {THEMES.map((theme) => (
                 <button
                     key={theme.name}
-                    className={`h-12 flex-1 text-white rounded-md transition ${themeName === theme.name ? "opacity-100" : "opacity-60"}`}
-                    style={{ backgroundColor: theme.color }}
+                    className={`h-12 flex-1 text-white rounded-md transition`}
+                    style={{ backgroundColor: themeName === theme.name ? theme.color : theme.lightColor }}
                     onClick={() => handleChangeTheme(theme.name)}
                 >
                     {theme.name}

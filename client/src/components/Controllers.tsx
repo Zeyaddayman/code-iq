@@ -19,7 +19,7 @@ const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IPr
             </Button>
             <Button
                 width="full"
-                className={`bg-primary-color`}
+                className={`bg-primary`}
                 onClick={nextQuestion}
             >
                 {index !== questionsLength - 1 ? "Next" : "Finish"}

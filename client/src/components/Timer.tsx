@@ -31,7 +31,7 @@ const Timer = ({ quizDurationSeconds, finishQuiz }: IProps) => {
         <div
             className="w-20 h-20 rounded-full relative"
             style={{
-                background: `conic-gradient(var(--primary-color) ${remainingPercentage}%, #00b09f2b 0%)`
+                background: `conic-gradient(rgb(var(--primary)) ${remainingPercentage}%, rgb(var(--primary)/0.5) 0%)`
             }}
         >
             <span

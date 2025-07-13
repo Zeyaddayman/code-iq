@@ -24,7 +24,7 @@ const Question = ({ question, userAnswers, handleChange }: IProps) => {
                         />
                         <label
                             htmlFor={answer}
-                            className="p-4 rounded-md block shadow-sm bg-white peer-checked:bg-primary-color peer-checked:text-white transition cursor-pointer"
+                            className="p-4 rounded-md block shadow-sm bg-white peer-checked:bg-primary hover:bg-primary/50 hover:text-white peer-checked:text-white transition cursor-pointer"
                         >
                             {answer}
                         </label>

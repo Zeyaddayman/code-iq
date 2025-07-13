@@ -72,7 +72,7 @@ const QuestionsPage = () => {
                     finishQuiz={finishQuiz}
                 />
             </div>
-            <div className="text-center my-12 text-gray-500 font-semibold">
+            <div className="text-center my-12 text-secondary font-semibold">
                 {index + 1}/{questions.length}
             </div>
             <Question

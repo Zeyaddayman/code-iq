@@ -68,7 +68,7 @@ const ResultPage = () => {
             </div>
             <Link
                 to={"/"}
-                className="bg-primary-color px-6 py-3 w-fit rounded my-5 flex text-white mx-auto"
+                className="bg-primary px-6 py-3 w-fit rounded my-5 flex text-white mx-auto"
             >
                 Restart
             </Link>

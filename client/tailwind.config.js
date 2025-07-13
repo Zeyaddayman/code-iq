@@ -7,10 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        "primary-color": "var(--primary-color)",
-        "secondary-color": "var(--secondary-color)",
-        "dark-blue-color": "var(--dark-blue-color)",
-        "soft-while-color": "var(--soft-while-color)"
+        "primary": "rgb(var(--primary) / <alpha-value>)",
+        "secondary": "rgb(var(--secondary) / <alpha-value>)"
       }
     },
   },

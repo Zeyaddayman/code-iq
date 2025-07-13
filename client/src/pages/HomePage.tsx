@@ -10,14 +10,14 @@ import { Link } from "react-router-dom";
 const HomePage = () => {
     return (
         <>
-            <header className="text-4xl font-bold mb-10 text-primary-color text-center">Code IQ</header>
+            <header className="text-4xl font-bold mb-10 text-primary text-center">Code IQ</header>
             <div className="space-y-6">
                 <div>
                     <h3 className="text-xl mb-3 font-semibold">Quiz Rules</h3>
                     <ul className="flex flex-col gap-2">
                         {RULES.map((rule, i) => (
                             <li key={i} className="flex items-center gap-2">
-                                <CheckCircleIcon width={20} height={20} className="flex-shrink-0 text-primary-color" /> {rule}
+                                <CheckCircleIcon width={20} height={20} className="flex-shrink-0 text-primary" /> {rule}
                             </li>
                         ))}
                     </ul>
@@ -62,7 +62,7 @@ const StartQuizButton = () => {
     return (
         <Link
             to={`/questions?language=${language.slug}`}
-            className="block w-full text-center bg-primary-color text-white px-6 py-4 rounded-md"
+            className="block w-full text-center bg-primary text-white px-6 py-4 rounded-md"
         >
             Start Quiz
         </Link>

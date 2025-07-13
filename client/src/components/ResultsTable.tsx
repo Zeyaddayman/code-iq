@@ -135,7 +135,7 @@ const ResultsTable = () => {
                         ))}
                     </tbody>
                     <tfoot>
-                        <tr className="bg-primary-color border-b text-white">
+                        <tr className="bg-primary border-b text-white">
                             <td className="px-6 py-2">Total Quizes: </td>
                             <td className="px-6 py-2">{filteredData.length}</td>
                             <td className="px-6 py-2"></td>
