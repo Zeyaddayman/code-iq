@@ -35,7 +35,7 @@ const Timer = ({ quizDurationSeconds, finishQuiz }: IProps) => {
             }}
         >
             <span
-                className="absolute top-1/2 left-1/2 w-16 h-16 bg-white grid place-items-center rounded-full -translate-x-1/2 -translate-y-1/2"
+                className="absolute top-1/2 left-1/2 w-16 h-16 bg-background text-secondary font-semibold grid place-items-center rounded-full -translate-x-1/2 -translate-y-1/2"
             >
                 {time}
             </span>

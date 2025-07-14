@@ -6,7 +6,7 @@
 :root {
     --background: #fbfaf9;
     --primary: 39 126 255;
-    --secondary: 107, 114, 128;
+    --secondary: 107 114 128;
 }
 
 body[data-theme="Blue"] {

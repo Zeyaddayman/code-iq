@@ -14,14 +14,14 @@ const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IPr
         <div className="flex flex-1 items-end justify-between gap-5">
             <Button
                 width="full"
-                className={`${isFirstQuestion ? "invisible" : null} bg-[#e8e8e8] !text-gray-400`}
+                className={`${isFirstQuestion ? "invisible" : null} bg-[#e8e8e8] !text-secondary`}
                 onClick={prevQuestion}
             >
                 Previous
             </Button>
             <Button
                 width="full"
-                className={`${isLastQuestion ? "bg-transparent outline outline-primary text-black" : "bg-primary"}`}
+                className={`${isLastQuestion ? "bg-transparent outline outline-primary !text-black" : "bg-primary"}`}
                 onClick={nextQuestion}
             >
                 {isLastQuestion ? "Finish" : "Next"}
