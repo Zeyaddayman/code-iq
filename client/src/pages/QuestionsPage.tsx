@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { selectQuizInfo, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice";
+import { selectQuizInfo, setQuizLanguage, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IQuestion } from "../interfaces";
@@ -7,6 +7,7 @@ import Question from "../components/Question";
 import Controllers from "../components/Controllers";
 import { LANGUAGES, QUIZ_DURATION } from "../constants";
 import Timer from "../components/Timer";
+import Loading from "../components/Loading";
 
 let languageName: string
 
@@ -26,9 +27,10 @@ const QuestionsPage = () => {
         fetch(`http://localhost:4000/api/questions?language=${languageParam}`)
             .then((res) => res.json())
             .then((data) => {
-                const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language)
-                languageName = matchLanguage!.name
+                const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language);
+                languageName = matchLanguage!.name;
 
+                dispatch(setQuizLanguage(matchLanguage!));
                 dispatch(setQuizStarted(true));
                 setQuestions(data.questions);
             })
@@ -36,7 +38,7 @@ const QuestionsPage = () => {
     }, [searchParams, dispatch])
 
     if (!questions) {
-        return <p>Loading...</p>;
+        return <Loading title="Loading Quiz" text="Getting your questions ready..." />;
     }
 
     const handleChange = (id: string, answer: string) => {
