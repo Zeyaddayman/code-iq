@@ -8,6 +8,7 @@ import Controllers from "../components/Controllers";
 import { LANGUAGES, QUIZ_DURATION } from "../constants";
 import Timer from "../components/Timer";
 import Loading from "../components/Loading";
+import Error from "../components/Error";
 
 let languageName: string
 
@@ -18,24 +19,42 @@ const QuestionsPage = () => {
 
     const [questions, setQuestions] = useState<IQuestion[] | null >(null);
     const [index, setIndex] = useState(0);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const languageParam = searchParams.get("language")
-        fetch(`http://localhost:4000/api/questions?language=${languageParam}`)
-            .then((res) => res.json())
-            .then((data) => {
-                const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language);
-                languageName = matchLanguage!.name;
+        async function fetchQuestions() {
 
-                dispatch(setQuizLanguage(matchLanguage!));
-                dispatch(setQuizStarted(true));
-                setQuestions(data.questions);
-            })
+            const languageParam = searchParams.get("language");
+            try {
+                const res = await fetch(`http://localhost:4000/api/questions?language=${languageParam}`)
+
+                const data = await res.json()
+
+                if (res.status === 200) {
+                    const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language);
+                    languageName = matchLanguage!.name;
+
+                    dispatch(setQuizLanguage(matchLanguage!));
+                    dispatch(setQuizStarted(true));
+                    setQuestions(data.questions);
+                } else {
+                    setErrorMessage(data.message)
+                }
+            } catch {
+                setErrorMessage("Something went wrong!")
+            }
+        }
+
+        fetchQuestions();
 
     }, [searchParams, dispatch])
+
+    if (errorMessage) {
+        return <Error title="Failed to Fetch Questions" text={errorMessage} />
+    }
 
     if (!questions) {
         return <Loading title="Loading Quiz" text="Getting your questions ready..." />;

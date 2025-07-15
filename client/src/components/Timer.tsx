@@ -11,7 +11,6 @@ const Timer = ({ quizDurationSeconds, finishQuiz }: IProps) => {
     const [timer, setTimer] = useState(quizDurationSeconds);
 
     const remainingPercentage = timer / quizDurationSeconds * 100;
-    console.log(remainingPercentage)
 
     const time = formatTime(timer);
 

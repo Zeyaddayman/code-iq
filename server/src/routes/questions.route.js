@@ -31,7 +31,7 @@ router.get('/', async (req, res) => {
     }))
 
     if (questions.length !== QUIZ_QUESTIONS_COUNT) {
-        return res.status(400).json({status: 'failed', message: "Unvalid programming language"})
+        return res.status(400).json({status: 'failed', message: `Language ${language} is not available`})
     }
 
     return res.status(200).json({status: 'success', questions, language })
