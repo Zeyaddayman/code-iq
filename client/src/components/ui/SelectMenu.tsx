@@ -12,7 +12,7 @@ interface IProps {
 const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
     return (
         <Listbox value={selected} onChange={setSelected}>
-            <div className='flex flex-col flex-1'>
+            <div className='flex flex-col flex-1 min-w-48'>
                 <Label className="text-xl mb-3 font-semibold">{ title }</Label>
                 <div className="relative">
                     <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm/6">

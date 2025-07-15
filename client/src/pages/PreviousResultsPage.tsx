@@ -1,9 +1,9 @@
 import ResultsTable from "../components/ResultsTable"
 
-const ResultsPage = () => {
+const PreviousResultsPage = () => {
     return (
         <ResultsTable />
     )
 }
 
-export default ResultsPage
+export default PreviousResultsPage

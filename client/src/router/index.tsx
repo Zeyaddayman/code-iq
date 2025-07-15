@@ -4,7 +4,7 @@ import HomePage from "../pages/HomePage";
 import PageNotFound from "../pages/PageNotFound";
 import QuestionsPage from "../pages/QuestionsPage";
 import ResultPage from "../pages/ResultPage";
-import ResultsPage from "../pages/ResultsTablePage";
+import PreviousResultsPage from "../pages/PreviousResultsPage";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -12,7 +12,7 @@ const router = createBrowserRouter(
             <Route index element={<HomePage />} />
             <Route path="questions" element={<QuestionsPage />} />
             <Route path="result" element={<ResultPage />} />
-            <Route path="results" element={<ResultsPage />} />
+            <Route path="previous-results" element={<PreviousResultsPage />} />
 
             <Route path="*" element={<PageNotFound />} />
         </Route>

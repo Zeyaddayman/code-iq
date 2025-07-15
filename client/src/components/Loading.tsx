@@ -20,7 +20,7 @@ const Loading = ({ title, text }: IProps) => {
         <div className="grid h-full place-items-center place-content-center">
             <Spinner />
             <h2 className="mt-8 mb-5 text-2xl font-bold">{title}</h2>
-            <p>{text}</p>
+            <p className="text-center">{text}</p>
         </div>
     )
 }

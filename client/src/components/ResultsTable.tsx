@@ -1,18 +1,18 @@
 import { useSelector } from "react-redux"
-import { selectResults } from "../app/features/resultsSlice"
 import { useEffect, useState } from "react"
 import SelectMenu from "./ui/SelectMenu"
 import { IResult, ISelectMenuOption } from "../interfaces"
 import { LANGUAGES } from "../constants"
+import { selectPrevResults } from "../app/features/prevResultsSlice"
 
 const sortByTimeOptions: ISelectMenuOption[] = [
     {
-        name: "Oldest",
-        slug: "oldest"
-    },
-    {
         name: "Newest",
         slug: "newest"
+    },
+    {
+        name: "Oldest",
+        slug: "oldest"
     }
 ]
 
@@ -26,14 +26,14 @@ const languagesWithAll: ISelectMenuOption[] = [
 
 const ResultsTable = () => {
 
-    const { results } = useSelector(selectResults)
+    const { prevResults } = useSelector(selectPrevResults)
 
     const [filters, setFilters] = useState({
-        sortByTime: sortByTimeOptions[1],
+        sortByTime: sortByTimeOptions[0],
         sortByLanguage: languagesWithAll[0]
     })
 
-    const [filteredData, setFilteredData] = useState<IResult[]>(results)
+    const [filteredData, setFilteredData] = useState<IResult[]>(prevResults)
 
     const setSortByTime = (newSortByTime: ISelectMenuOption) => {
         setFilters((prev) => ({...prev, sortByTime: newSortByTime}))
@@ -48,9 +48,9 @@ const ResultsTable = () => {
         let newFilteredData
 
         if (filters.sortByLanguage.slug === "all") {
-            newFilteredData = results.filter(() => true)
+            newFilteredData = prevResults.filter(() => true)
         } else {
-            newFilteredData = results.filter((result) => {
+            newFilteredData = prevResults.filter((result) => {
                 return result.language === filters.sortByLanguage.name
             })
         }
@@ -61,23 +61,24 @@ const ResultsTable = () => {
             newFilteredData = newFilteredData.reverse()
             setFilteredData(newFilteredData)
         }
-    }, [filters.sortByLanguage.name, filters.sortByLanguage.slug, filters.sortByTime.slug, results])
+        
+    }, [filters.sortByLanguage.name, filters.sortByLanguage.slug, filters.sortByTime.slug, prevResults])
 
     const calculateTotalPassed = () => {
-        return filteredData.filter((result) => result.isPassed).length
+        return filteredData.filter((result) => result.isPassed).length;
     }
 
     return (
         <section>
             <div className="flex gap-5 justify-between flex-wrap my-3">
                 <SelectMenu
-                    title={"sort by time"}
+                    title={"Sort by Time"}
                     selected={filters.sortByTime}
                     options={sortByTimeOptions}
                     setSelected={setSortByTime}
                 />
                 <SelectMenu
-                    title={"sort by language"}
+                    title={"Sort by Language"}
                     selected={filters.sortByLanguage}
                     options={languagesWithAll}
                     setSelected={setSortByLanguage}

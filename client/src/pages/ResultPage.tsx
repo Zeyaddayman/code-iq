@@ -3,15 +3,15 @@ import { selectQuizInfo, setQuizStarted, setUserAnswers } from "../app/features/
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { IResult } from "../interfaces";
-import { selectResults, setResults } from "../app/features/resultsSlice";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import ResultsTable from "../components/ResultsTable";
+import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice";
 
 const ResultPage = () => {
 
     const { quizStarted, userAnswers, language } = useSelector(selectQuizInfo);
-    const { results } = useSelector(selectResults)
+    const { prevResults } = useSelector(selectPrevResults)
 
     const [currentResult, setCurrentResult] = useState<IResult | null>(null);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -34,9 +34,9 @@ const ResultPage = () => {
 
                 result["language"] = language.name;
 
-                const newResults = [...results, result];
+                const newResults = [...prevResults, result];
 
-                dispatch(setResults(newResults));
+                dispatch(setPrevResults(newResults));
                 setCurrentResult(result);
 
             } catch {
@@ -50,7 +50,7 @@ const ResultPage = () => {
         if (quizStarted) {
             processQuizResult();
         } else {
-            navigate("/results");
+            navigate("/previous-results");
         }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

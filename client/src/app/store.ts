@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import quizInfoReducer from './features/quizInfoSlice'
-import resultsReducer from './features/resultsSlice'
+import prevResultsReducer from './features/prevResultsSlice'
 
 export const store = configureStore({
     reducer: {
         quizInfo: quizInfoReducer,
-        results: resultsReducer
+        prevResults: prevResultsReducer
     },
 })
 
