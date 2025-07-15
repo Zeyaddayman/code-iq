@@ -51,7 +51,7 @@ const ResultsTable = () => {
             newFilteredData = results.filter(() => true)
         } else {
             newFilteredData = results.filter((result) => {
-                return result.languageName === filters.sortByLanguage.name
+                return result.language === filters.sortByLanguage.name
             })
         }
 
@@ -68,86 +68,86 @@ const ResultsTable = () => {
     }
 
     return (
-        <>
-        <div className="flex gap-5 justify-between flex-wrap my-3">
-            <SelectMenu
-                title={"sort by time"}
-                selected={filters.sortByTime}
-                options={sortByTimeOptions}
-                setSelected={setSortByTime}
-            />
-            <SelectMenu
-                title={"sort by language"}
-                selected={filters.sortByLanguage}
-                options={languagesWithAll}
-                setSelected={setSortByLanguage}
-            />
-        </div>
-        {filteredData.length < 1 ? (
-            <p className="text-2xl text-center mt-5">No results found!</p>
-        ) : (
-            <div className="relative overflow-x-auto">
-                <table className="w-full text-sm text-center text-gray-500">
-                    <thead className="text-lg bg-dark-blue-color text-white">
-                        <tr>
-                            <th scope="col" className="px-6 py-3">
-                                Date
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Language
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Attempts
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Earned Points
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Percentage
-                            </th>
-                            <th scope="col" className="px-6 py-3">
-                                Result
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredData.map((result, i) => (
-                            <tr key={i} className="bg-white border-b border-gray-200">
-                                <td className="px-6 py-4">
-                                    {new Date(result.date).toLocaleDateString()}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {result.languageName}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {result.attempts}/{result.questions}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {result.earnedPoints}/{result.quizPoints}
-                                </td>
-                                <td className="px-6 py-4">
-                                    {result.percentage}%
-                                </td>
-                                <td className={`px-6 py-4 ${result.isPassed ? 'text-green-500' : 'text-red-600'}`}>
-                                    {result.isPassed ? "Passed" : "Failed"}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                    <tfoot>
-                        <tr className="bg-primary border-b text-white">
-                            <td className="px-6 py-2">Total Quizes: </td>
-                            <td className="px-6 py-2">{filteredData.length}</td>
-                            <td className="px-6 py-2"></td>
-                            <td className="px-6 py-2"></td>
-                            <td className="px-6 py-2">Total Passed: </td>
-                            <td className="px-6 py-2">{calculateTotalPassed()}</td>
-                        </tr>
-                    </tfoot>
-                </table>
+        <section>
+            <div className="flex gap-5 justify-between flex-wrap my-3">
+                <SelectMenu
+                    title={"sort by time"}
+                    selected={filters.sortByTime}
+                    options={sortByTimeOptions}
+                    setSelected={setSortByTime}
+                />
+                <SelectMenu
+                    title={"sort by language"}
+                    selected={filters.sortByLanguage}
+                    options={languagesWithAll}
+                    setSelected={setSortByLanguage}
+                />
             </div>
-        )}
-        </>
+            {filteredData.length > 1 ? (
+                <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-center text-gray-500">
+                        <thead className="text-lg bg-dark-blue-color text-white">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    Date
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Language
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Attempts
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Earned Points
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Percentage
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Result
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredData.map((result, i) => (
+                                <tr key={i} className="bg-white border-b border-gray-200">
+                                    <td className="px-6 py-4">
+                                        {new Date(result.date).toLocaleDateString()}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {result.language}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {result.attempts}/{result.questions}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {result.earnedPoints}/{result.quizPoints}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {result.percentage}%
+                                    </td>
+                                    <td className={`px-6 py-4 ${result.isPassed ? 'text-green-500' : 'text-red-600'}`}>
+                                        {result.isPassed ? "Passed" : "Failed"}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                        <tfoot>
+                            <tr className="bg-primary border-b text-white">
+                                <td className="px-6 py-2">Total Quizes: </td>
+                                <td className="px-6 py-2">{filteredData.length}</td>
+                                <td className="px-6 py-2"></td>
+                                <td className="px-6 py-2"></td>
+                                <td className="px-6 py-2">Total Passed: </td>
+                                <td className="px-6 py-2">{calculateTotalPassed()}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            ) : (
+                <p className="text-2xl text-center mt-5">No results found!</p>
+            )}
+        </section>
     )
 }
 

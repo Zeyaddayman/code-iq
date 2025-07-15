@@ -44,7 +44,7 @@ const QuestionsPage = () => {
                     setErrorMessage(data.message)
                 }
             } catch {
-                setErrorMessage("Something went wrong!")
+                setErrorMessage("There was an issue loading the quiz questions. Please try again")
             }
         }
 

@@ -16,7 +16,7 @@ export interface IUserAnswers { [id: string]: string }
 
 export interface IResult {
     date: Date;
-    languageName: string;
+    language: string;
     attempts: number;
     questions: number;
     quizPoints: number;

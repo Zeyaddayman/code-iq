@@ -7,7 +7,7 @@ const prisma = new PrismaClient()
 
 router.post('/', async (req, res) => {
 
-    const { categoryName, userAnswers } = req.body;
+    const { userAnswers } = req.body;
 
     const quizPoints = QUIZ_QUESTIONS_COUNT * 10;
 
@@ -36,11 +36,10 @@ router.post('/', async (req, res) => {
 
     const isPassed = percentage >= 50 ? true : false;
 
-    const timeNow = Date.now()
+    const date = Date.now();
 
     const result = {
-        date: timeNow,
-        categoryName,
+        date,
         attempts,
         questions: QUIZ_QUESTIONS_COUNT,
         quizPoints,
