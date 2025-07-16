@@ -12,7 +12,7 @@ interface IQuizInfo {
 
 const initialState: IQuizInfo = {
     quizStarted: false,
-    language: JSON.parse(localStorage.getItem("quizLanguage") || JSON.stringify(LANGUAGES[0])) || LANGUAGES[0],
+    language: JSON.parse(localStorage.getItem("quiz-language") || JSON.stringify(LANGUAGES[0])) || LANGUAGES[0],
     userAnswers: {}
 }
 
@@ -22,7 +22,7 @@ export const quizInfoSlice = createSlice({
     reducers: {
         setQuizLanguage: (state, action: PayloadAction<ILanguage>) => {
             state.language = action.payload;
-            localStorage.setItem("quizLanguage", JSON.stringify(action.payload))
+            localStorage.setItem("quiz-language", JSON.stringify(action.payload))
         },
         setQuizStarted: (state, action: PayloadAction<boolean>) => {
             state.quizStarted = action.payload;

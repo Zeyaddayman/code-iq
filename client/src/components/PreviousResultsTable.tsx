@@ -4,6 +4,7 @@ import SelectMenu from "./ui/SelectMenu"
 import { IResult, ISelectMenuOption } from "../interfaces"
 import { LANGUAGES } from "../constants"
 import { selectPrevResults } from "../app/features/prevResultsSlice"
+import { Link } from "react-router-dom"
 
 const sortByTimeOptions: ISelectMenuOption[] = [
     {
@@ -24,7 +25,7 @@ const languagesWithAll: ISelectMenuOption[] = [
     ...LANGUAGES
 ]
 
-const ResultsTable = () => {
+const PreviousResultsTable = () => {
 
     const { prevResults } = useSelector(selectPrevResults)
 
@@ -64,12 +65,15 @@ const ResultsTable = () => {
         
     }, [filters.sortByLanguage.name, filters.sortByLanguage.slug, filters.sortByTime.slug, prevResults])
 
-    const calculateTotalPassed = () => {
-        return filteredData.filter((result) => result.isPassed).length;
-    }
-
     return (
         <section>
+            <Link
+                to={"/"}
+                className="px-6 py-3 rounded-md block text-center bg-primary text-white font-semibold"
+            >
+                Start New Quiz
+            </Link>
+            <h2 className="font-bold text-xl md:text-3xl my-10">Previous Results</h2>
             <div className="flex gap-5 justify-between flex-wrap my-3">
                 <SelectMenu
                     title={"Sort by Time"}
@@ -84,10 +88,10 @@ const ResultsTable = () => {
                     setSelected={setSortByLanguage}
                 />
             </div>
-            {filteredData.length > 1 ? (
-                <div className="relative overflow-x-auto">
-                    <table className="w-full text-sm text-center text-gray-500">
-                        <thead className="text-lg bg-dark-blue-color text-white">
+            {filteredData.length >= 1 ? (
+                <div className="relative overflow-x-auto rounded-sm bg-white">
+                    <table className="w-full text-center">
+                        <thead className="font-semibold">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
                                     Date
@@ -99,7 +103,7 @@ const ResultsTable = () => {
                                     Attempts
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Earned Points
+                                    Points
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     Percentage
@@ -111,7 +115,7 @@ const ResultsTable = () => {
                         </thead>
                         <tbody>
                             {filteredData.map((result, i) => (
-                                <tr key={i} className="bg-white border-b border-gray-200">
+                                <tr key={i} className="border-b border-secondary/30">
                                     <td className="px-6 py-4">
                                         {new Date(result.date).toLocaleDateString()}
                                     </td>
@@ -127,29 +131,19 @@ const ResultsTable = () => {
                                     <td className="px-6 py-4">
                                         {result.percentage}%
                                     </td>
-                                    <td className={`px-6 py-4 ${result.isPassed ? 'text-green-500' : 'text-red-600'}`}>
+                                    <td className={`px-6 py-4 ${result.isPassed ? 'text-green-600' : 'text-red-600'}`}>
                                         {result.isPassed ? "Passed" : "Failed"}
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
-                        <tfoot>
-                            <tr className="bg-primary border-b text-white">
-                                <td className="px-6 py-2">Total Quizes: </td>
-                                <td className="px-6 py-2">{filteredData.length}</td>
-                                <td className="px-6 py-2"></td>
-                                <td className="px-6 py-2"></td>
-                                <td className="px-6 py-2">Total Passed: </td>
-                                <td className="px-6 py-2">{calculateTotalPassed()}</td>
-                            </tr>
-                        </tfoot>
                     </table>
                 </div>
             ) : (
-                <p className="text-2xl text-center mt-5">No results found!</p>
+                <p className="text-2xl text-center mt-10 text-secondary">No previous results found.</p>
             )}
         </section>
     )
 }
 
-export default ResultsTable
+export default PreviousResultsTable

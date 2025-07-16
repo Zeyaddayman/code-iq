@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { IResult } from "../interfaces";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import ResultsTable from "../components/ResultsTable";
+import PreviousResultsTable from "../components/PreviousResultsTable";
 import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice";
 
 const ResultPage = () => {
@@ -66,7 +66,7 @@ const ResultPage = () => {
 
     return (
         <>
-        <section className="border-b border-secondary/30 font-semibold">
+        <section className="border-b border-secondary/30 font-semibold mb-10">
             <h2 className="font-bold text-center text-xl md:text-3xl">{language.name} Quiz Result</h2>
             <div className="flex flex-col gap-3 py-10">
                 <p className="flex justify-between">Attempts: <span>{currentResult.attempts}/{currentResult.questions}</span></p>
@@ -79,7 +79,7 @@ const ResultPage = () => {
                 </p>
             </div>
         </section>
-        <ResultsTable />
+        <PreviousResultsTable />
         </>
     )
 }

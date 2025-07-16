@@ -1,8 +1,8 @@
-import ResultsTable from "../components/ResultsTable"
+import PreviousResultsTable from "../components/PreviousResultsTable"
 
 const PreviousResultsPage = () => {
     return (
-        <ResultsTable />
+        <PreviousResultsTable />
     )
 }
 
