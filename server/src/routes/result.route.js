@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { PrismaClient } = require("../../generated/prisma");
+const { PrismaClient } = require('@prisma/client');
 const { QUIZ_QUESTIONS_COUNT } = require('../constants');
 
 const prisma = new PrismaClient()
