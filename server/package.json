@@ -1,11 +1,11 @@
 {
-  "name": "server",
+  "name": "code-iq-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "build": "npm ci --omit=dev && prisma generate",
+    "build": "npm ci --omit=dev && npx prisma generate",
     "start": "node src/index.js"
   },
   "keywords": [],
