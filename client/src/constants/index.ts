@@ -1,5 +1,7 @@
 import { ILanguage } from "../interfaces"
 
+export const API_URL = import.meta.env.VITE_API_URL
+
 export const QUIZ_DURATION = 3 // minutes
 export const QUIZ_QUESTIONS_COUNT = 10
 export const POINTS_PER_QUESTION = 10

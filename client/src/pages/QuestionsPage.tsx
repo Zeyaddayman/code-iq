@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { IQuestion } from "../interfaces";
 import Question from "../components/Question";
 import Controllers from "../components/Controllers";
-import { LANGUAGES, QUIZ_DURATION } from "../constants";
+import { API_URL, LANGUAGES, QUIZ_DURATION } from "../constants";
 import Timer from "../components/Timer";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
@@ -29,7 +29,7 @@ const QuestionsPage = () => {
 
             const languageParam = searchParams.get("language");
             try {
-                const res = await fetch(`http://localhost:4000/api/questions?language=${languageParam}`)
+                const res = await fetch(`${API_URL}/api/questions?language=${languageParam}`)
 
                 const data = await res.json()
 
@@ -53,7 +53,7 @@ const QuestionsPage = () => {
     }, [searchParams, dispatch])
 
     if (errorMessage) {
-        return <Error title="Failed to Fetch Questions" text={errorMessage} />
+        return <Error title="Failed to Get Questions" text={errorMessage} />
     }
 
     if (!questions) {
