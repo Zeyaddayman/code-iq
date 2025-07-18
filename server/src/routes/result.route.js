@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { PrismaClient } = require('@prisma/client');
 const { QUIZ_QUESTIONS_COUNT } = require('../constants');
-
-const prisma = new PrismaClient()
+const { default: prisma } = require('../lib');
 
 router.post('/', async (req, res) => {
 
