@@ -1,20 +1,23 @@
 import { ILanguage } from "../interfaces"
 
 export const QUIZ_DURATION = 3 // minutes
+export const QUIZ_QUESTIONS_COUNT = 10
+export const POINTS_PER_QUESTION = 10
 
 export const RULES = [
-    `You have a 10 random questions to solve in ${QUIZ_DURATION} minutes`,
+    `You have a ${QUIZ_QUESTIONS_COUNT} random questions to solve in ${QUIZ_DURATION} minutes`,
     'Each question has three options, you can choose only one option.',
     'You can review and change answers before the quiz finish.',
-    '10 points is awarded for the correct answer.',
+    `${POINTS_PER_QUESTION} points is awarded for the correct answer.`,
     'The result will be declared at the end of the quiz.'
 ]
 
 export const LANGUAGES: ILanguage[] = [
-    // {
-    //     name: "Java",
-    //     slug: "java",
-    // },
+    {
+        name: "Java",
+        slug: "java",
+        icon: `images/java.png`
+    },
     {
         name: "Python",
         slug: "python",
@@ -23,12 +26,12 @@ export const LANGUAGES: ILanguage[] = [
     {
         name: "Javascript",
         slug: "javascript",
-        icon: `images/js.png`
+        icon: `images/javascript.png`
     },
     {
         name: "C++",
         slug: "c-plus-plus",
-        icon: `images/cplusplus.png`
+        icon: `images/c-plus-plus.png`
     }
 ]
 
