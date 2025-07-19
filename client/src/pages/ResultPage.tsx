@@ -7,7 +7,6 @@ import Loading from "../components/Loading";
 import Error from "../components/Error";
 import PreviousResultsTable from "../components/PreviousResultsTable";
 import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice";
-import { API_URL } from "../constants";
 
 const ResultPage = () => {
 
@@ -23,7 +22,7 @@ const ResultPage = () => {
     useEffect(() => {
         async function processQuizResult() {
             try {
-                const res = await fetch(`${API_URL}/api/result`, {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/result`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
