@@ -24,6 +24,30 @@ const QuestionsPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const finishQuiz = () => {
+        navigate("/result");
+    }
+
+    useEffect(() => {
+        document.documentElement.requestFullscreen();
+
+        const endQuizOnUnFullscreen = () => {
+            if (!document.fullscreenElement) {
+                finishQuiz();
+            }
+        }
+
+        document.addEventListener("fullscreenchange", endQuizOnUnFullscreen);
+
+        return () => {
+            document.removeEventListener("fullscreenchange", endQuizOnUnFullscreen);
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
     useEffect(() => {
         async function fetchQuestions() {
 
@@ -78,10 +102,6 @@ const QuestionsPage = () => {
         } else {
             setIndex(prev => prev + 1);
         }
-    }
-
-    const finishQuiz = () => {
-        navigate("/result")
     }
 
     return (
