@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectQuizInfo, setUserAnswers } from "../app/features/quizInfoSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Question from "../components/Question";
 import Controllers from "../components/Controllers";
 import { QUIZ_DURATION } from "../constants";
@@ -9,41 +9,49 @@ import Timer from "../components/Timer";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
 import { useGetQuestionsByLanguage } from "../hooks/questions";
+import UnFullscreenWarning from "../components/UnFullscreenWarning";
 
 const QuestionsPage = () => {
 
-    const { userAnswers } = useSelector(selectQuizInfo);
     const [searchParams] = useSearchParams();
 
     const { questions, language, isError, errorMessage } = useGetQuestionsByLanguage(searchParams.get("language") as string);
     const [index, setIndex] = useState(0);
 
+    const { userAnswers } = useSelector(selectQuizInfo);
+
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
 
     const finishQuiz = () => {
         navigate("/result", { replace: true });
     }
 
-    useEffect(() => {
-        document.documentElement.requestFullscreen();
+    const endQuizOnUnFullscreen = useCallback(() => {
+        if (!document.fullscreenElement) finishQuiz();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-        const endQuizOnUnFullscreen = () => {
-            if (!document.fullscreenElement) {
-                finishQuiz();
-            }
-        }
+    const triggerFullscreen = async () => {
+        await document.documentElement.requestFullscreen();
 
         document.addEventListener("fullscreenchange", endQuizOnUnFullscreen);
+        setIsFullscreen(true);
+    }
 
+    useEffect(() => {
+        // exit full screen mode and remove the event listener when the component unmounts
         return () => {
             document.removeEventListener("fullscreenchange", endQuizOnUnFullscreen);
             if (document.fullscreenElement) {
                 document.exitFullscreen();
             }
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    
+    }, [endQuizOnUnFullscreen])
 
     if (isError) {
         return <Error title="Failed to Get Questions" text={errorMessage} />
@@ -51,6 +59,10 @@ const QuestionsPage = () => {
 
     if (!questions) {
         return <Loading title="Loading Quiz" text="Getting your questions ready..." />;
+    }
+
+    if (!isFullscreen) {
+        return <UnFullscreenWarning triggerFullscreen={triggerFullscreen} />;
     }
 
     const handleChange = (id: string, answer: string) => {
