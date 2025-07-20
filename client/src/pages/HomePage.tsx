@@ -62,6 +62,7 @@ const StartQuizButton = () => {
     return (
         <Link
             to={`/questions?language=${language.slug}`}
+            replace
             className="block w-full text-center bg-primary text-white px-6 py-4 rounded-md"
         >
             Start Quiz

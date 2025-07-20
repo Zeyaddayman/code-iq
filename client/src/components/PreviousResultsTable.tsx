@@ -70,7 +70,6 @@ const PreviousResultsTable = () => {
             <Link
                 to={"/"}
                 className="px-6 py-3 rounded-md block text-center bg-primary text-white font-semibold"
-                reloadDocument
             >
                 Start New Quiz
             </Link>

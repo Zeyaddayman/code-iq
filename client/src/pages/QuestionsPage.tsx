@@ -2,31 +2,36 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectQuizInfo, setQuizLanguage, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { IQuestion } from "../interfaces";
 import Question from "../components/Question";
 import Controllers from "../components/Controllers";
-import { LANGUAGES, QUIZ_DURATION } from "../constants";
+import { QUIZ_DURATION } from "../constants";
 import Timer from "../components/Timer";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-
-let languageName: string
+import { useGetQuestionsByLanguage } from "../hooks";
 
 const QuestionsPage = () => {
 
     const { userAnswers } = useSelector(selectQuizInfo);
     const [searchParams] = useSearchParams();
 
-    const [questions, setQuestions] = useState<IQuestion[] | null >(null);
+    const { questions, language, isError, errorMessage } = useGetQuestionsByLanguage(searchParams.get("language") as string);
     const [index, setIndex] = useState(0);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const finishQuiz = () => {
-        navigate("/result");
+        navigate("/result", { replace: true });
     }
+
+    useEffect(() => {
+        if (questions && language) {
+            dispatch(setQuizStarted(true));
+            dispatch(setQuizLanguage(language));
+        }
+    }, [questions, language, dispatch])
+    
 
     useEffect(() => {
         document.documentElement.requestFullscreen();
@@ -48,35 +53,7 @@ const QuestionsPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    useEffect(() => {
-        async function fetchQuestions() {
-
-            const languageParam = searchParams.get("language");
-            try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/questions?language=${languageParam}`)
-
-                const data = await res.json()
-
-                if (res.status === 200) {
-                    const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language);
-                    languageName = matchLanguage!.name;
-
-                    dispatch(setQuizLanguage(matchLanguage!));
-                    dispatch(setQuizStarted(true));
-                    setQuestions(data.questions);
-                } else {
-                    setErrorMessage(data.message)
-                }
-            } catch {
-                setErrorMessage("There was an issue loading the quiz questions. Please try again")
-            }
-        }
-
-        fetchQuestions();
-
-    }, [searchParams, dispatch])
-
-    if (errorMessage) {
+    if (isError) {
         return <Error title="Failed to Get Questions" text={errorMessage} />
     }
 
@@ -107,7 +84,7 @@ const QuestionsPage = () => {
     return (
         <div className="h-full flex flex-col">
             <div className="flex gap-3 justify-between items-center">
-                <h2 className="text-xl md:text-3xl font-bold">{languageName} Quiz</h2>
+                <h2 className="text-xl md:text-3xl font-bold">{language!.name} Quiz</h2>
                 <Timer
                     quizDurationSeconds={QUIZ_DURATION * 60}
                     finishQuiz={finishQuiz}

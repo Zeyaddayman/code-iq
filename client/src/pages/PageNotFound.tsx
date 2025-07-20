@@ -11,7 +11,7 @@ const PageNotFound = () => {
                             <span className="text-red-600">Oops!</span> <span>Page not found</span>
                         </p>
                         <p className="mb-8 text-center md:text-lg">The page you’re looking for doesn’t exist.</p>
-                        <Link to={"/"} className="inline-block bg-primary px-6 py-3 text-white rounded-md" reloadDocument>
+                        <Link to={"/"} replace className="inline-block bg-primary px-6 py-3 text-white rounded-md">
                             Return to Home
                         </Link>
                     </div>
