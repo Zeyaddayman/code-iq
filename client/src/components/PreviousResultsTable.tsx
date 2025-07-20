@@ -6,8 +6,6 @@ import { LANGUAGES } from "../constants"
 import { selectPrevResults } from "../app/features/prevResultsSlice"
 import { Link } from "react-router-dom"
 
-console.log("PreviousResultsTable component loaded")
-
 const sortByTimeOptions: ISelectMenuOption[] = [
     {
         name: "Newest",
