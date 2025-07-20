@@ -1,62 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { selectQuizInfo, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { IResult } from "../interfaces";
+import { useGetResult } from "../hooks/result";
+import PreviousResultsTable from "../components/PreviousResultsTable";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import PreviousResultsTable from "../components/PreviousResultsTable";
-import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice";
+import { useSelector } from "react-redux";
+import { selectQuizInfo } from "../app/features/quizInfoSlice";
 
 const ResultPage = () => {
 
-    const { quizStarted, userAnswers, language } = useSelector(selectQuizInfo);
-    const { prevResults } = useSelector(selectPrevResults)
+    const { currentResult, isError, errorMessage } = useGetResult();
+    const { language } = useSelector(selectQuizInfo);
 
-    const [currentResult, setCurrentResult] = useState<IResult | null>(null);
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        async function processQuizResult() {
-            try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/result`, {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userAnswers
-                    })
-                })
-
-                const result: IResult = await res.json();
-
-                result["language"] = language.name;
-
-                const newResults = [...prevResults, result];
-
-                dispatch(setPrevResults(newResults));
-                setCurrentResult(result);
-
-            } catch {
-                setErrorMessage("There was an issue processing the quiz result.")
-            } finally {
-                dispatch(setQuizStarted(false))
-                dispatch(setUserAnswers({}));
-            }
-        }
-
-        if (quizStarted) {
-            processQuizResult();
-        } else {
-            navigate("/previous-results");
-        }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    if (errorMessage) {
+    if (isError) {
         return <Error title="Failed to Process the Result" text={errorMessage} />
     }
 

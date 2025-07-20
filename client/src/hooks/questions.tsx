@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { LANGUAGES } from "../constants";
 import { ILanguage, IQuestion } from "../interfaces";
+import { useDispatch } from "react-redux";
+import { setQuizLanguage, setQuizStarted } from "../app/features/quizInfoSlice";
 
 interface IState {
     data: { questions: IQuestion[] | null, language: ILanguage | null };
@@ -14,7 +16,9 @@ export const useGetQuestionsByLanguage = (quizLanguage: string) => {
         data: { questions: null, language: null },
         isError: false,
         errorMessage: "There was an issue loading the quiz questions. Please try again"
-    });
+    })
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         async function fetchQuestions() {
@@ -30,6 +34,9 @@ export const useGetQuestionsByLanguage = (quizLanguage: string) => {
                         ...prevState,
                         data: { questions: data.questions, language: matchLanguage! }
                     }));
+
+                    dispatch(setQuizStarted(true));
+                    dispatch(setQuizLanguage(matchLanguage!));
 
                 } else {
                     setState((prevState) => ({
@@ -50,7 +57,12 @@ export const useGetQuestionsByLanguage = (quizLanguage: string) => {
 
         fetchQuestions();
 
-    }, [quizLanguage])
+    }, [quizLanguage, dispatch])
 
-    return { questions: state.data.questions, language: state.data.language, isError: state.isError, errorMessage: state.errorMessage };
+    return {
+        questions: state.data.questions,
+        language: state.data.language,
+        isError: state.isError,
+        errorMessage: state.errorMessage
+    }
 }

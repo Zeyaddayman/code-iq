@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { selectQuizInfo, setQuizLanguage, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice";
+import { selectQuizInfo, setUserAnswers } from "../app/features/quizInfoSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Question from "../components/Question";
@@ -8,7 +8,7 @@ import { QUIZ_DURATION } from "../constants";
 import Timer from "../components/Timer";
 import Loading from "../components/Loading";
 import Error from "../components/Error";
-import { useGetQuestionsByLanguage } from "../hooks";
+import { useGetQuestionsByLanguage } from "../hooks/questions";
 
 const QuestionsPage = () => {
 
@@ -24,14 +24,6 @@ const QuestionsPage = () => {
     const finishQuiz = () => {
         navigate("/result", { replace: true });
     }
-
-    useEffect(() => {
-        if (questions && language) {
-            dispatch(setQuizStarted(true));
-            dispatch(setQuizLanguage(language));
-        }
-    }, [questions, language, dispatch])
-    
 
     useEffect(() => {
         document.documentElement.requestFullscreen();
