@@ -1,27 +1,28 @@
-import { RouterProvider } from "react-router-dom";
-import router from "./router";
-import { DEFAULT_THEME_NAME, ThemeName, THEMES } from "./constants";
+import { Route, Routes } from "react-router";
+import { lazy } from "react";
+import { applyTheme } from "./utils";
+import RootLayout from "./pages/Layout";
+import HomePage from "./pages/HomePage";
+const QuestionsPage = lazy(() => import("./pages/QuestionsPage"));
+const ResultPage = lazy(() => import("./pages/ResultPage"));
+import PreviousResultsPage from "./pages/PreviousResultsPage";
+import PageNotFound from "./pages/PageNotFound";
 
-const applyTheme = (): void => {
-    let themeName: ThemeName
-
-    const savedTheme = localStorage.getItem("theme")
-
-    if (savedTheme && THEMES.some(theme => theme.name === savedTheme)) {
-        themeName = savedTheme as ThemeName
-    } else {
-        themeName = window.matchMedia("(prefers-color-scheme: dark)").matches ? "Dark" : DEFAULT_THEME_NAME
-    }
-
-    document.body.setAttribute("data-theme", themeName)
-    localStorage.setItem("theme", themeName)
-}
 
 const App = () => {
     applyTheme();
     
     return (
-        <RouterProvider router={router} />
+        <Routes>
+            <Route path="/" element={<RootLayout />}>
+                <Route index element={<HomePage />} />
+                <Route path="questions" element={<QuestionsPage />} />
+                <Route path="result" element={<ResultPage />} />
+                <Route path="previous-results" element={<PreviousResultsPage />} />
+
+                <Route path="*" element={<PageNotFound />} />
+            </Route>
+        </Routes>
     )
 }
 

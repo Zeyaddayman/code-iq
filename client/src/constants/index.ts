@@ -38,18 +38,15 @@ export const LANGUAGES: ILanguage[] = [
 export const THEMES = [
     {
         name: "Blue",
-        color: "#277eff",
-        lightColor: "#277eff80"
+        color: "#277eff"
     },
     {
         name: "Mint",
-        color: "#00b09f",
-        lightColor: "#00b09f80"
+        color: "#00b09f"
     },
     {
         name: "Dark",
-        color: "#242424",
-        lightColor: "#24242480"
+        color: "#242424"
     }
 ] as const
 
