@@ -16,15 +16,23 @@ const Timer = ({ quizDurationSeconds, finishQuiz }: IProps) => {
 
     useEffect(() => {
 
-        if (timer <= 0) finishQuiz();
-        else {
-            setTimeout(() => {
-                setTimer(prev => prev - 1);
-            }, 1000);
+        const interval = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 0) {
+                    clearInterval(interval);
+                    finishQuiz();
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+
+        return () => {
+            clearInterval(interval);
         }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [timer])
+    }, [])
 
     return (
         <div
