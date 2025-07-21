@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import SelectMenu from "./ui/SelectMenu"
 import { IResult, ISelectMenuOption } from "../interfaces"
 import { LANGUAGES } from "../constants"
-import { selectPrevResults } from "../app/features/prevResultsSlice"
+import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice"
 import { Link } from "react-router-dom"
+import Button from "./ui/Button"
 
 const sortByTimeOptions: ISelectMenuOption[] = [
     {
@@ -28,6 +29,7 @@ const languagesWithAll: ISelectMenuOption[] = [
 const PreviousResultsTable = () => {
 
     const { prevResults } = useSelector(selectPrevResults)
+    const dispatch = useDispatch()
 
     const [filters, setFilters] = useState({
         sortByTime: sortByTimeOptions[0],
@@ -74,7 +76,7 @@ const PreviousResultsTable = () => {
                 Start New Quiz
             </Link>
             <h2 className="font-bold text-xl md:text-3xl my-10">Previous Results</h2>
-            <div className="flex gap-5 justify-between flex-wrap my-3">
+            <div className="flex gap-5 justify-between flex-wrap mb-3">
                 <SelectMenu
                     title={"Sort by Time"}
                     selected={filters.sortByTime}
@@ -90,7 +92,7 @@ const PreviousResultsTable = () => {
             </div>
             {filteredData.length >= 1 ? (
                 <div className="relative overflow-x-auto rounded-sm bg-white">
-                    <table className="w-full text-center">
+                    <table className="w-full text-center mb-10">
                         <thead className="font-semibold">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
@@ -138,6 +140,15 @@ const PreviousResultsTable = () => {
                             ))}
                         </tbody>
                     </table>
+                    <Button
+                        width="full"
+                        onClick={() => {
+                            dispatch(setPrevResults([]))
+                        }}
+                        className="bg-red-500 hover:bg-red-600 transition"
+                    >
+                        Remove Previous Results
+                    </Button>
                 </div>
             ) : (
                 <p className="text-2xl text-center mt-10 text-secondary">No previous results found.</p>

@@ -32,6 +32,9 @@ const HomePage = () => {
                 <div>
                     <StartQuizButton />
                 </div>
+                <Link to="/previous-results" className="block w-fit mx-auto text-center text-primary font-semibold hover:underline">
+                    View Previous Results
+                </Link>
             </div>
         </>
     )
