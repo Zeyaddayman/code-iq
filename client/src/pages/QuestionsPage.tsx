@@ -1,53 +1,53 @@
 import { useDispatch, useSelector } from "react-redux"
-import { selectQuizInfo, setUserAnswers } from "../app/features/quizInfoSlice";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
-import Question from "../components/Question";
-import Controllers from "../components/Controllers";
-import { QUIZ_DURATION } from "../constants";
-import Timer from "../components/Timer";
-import Loading from "../components/Loading";
-import Error from "../components/Error";
-import { useGetQuestionsByLanguage } from "../hooks/questions";
-import UnFullscreenWarning from "../components/UnFullscreenWarning";
+import { selectQuizInfo, setUserAnswers } from "../app/features/quizInfoSlice"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import { useCallback, useEffect, useState } from "react"
+import Question from "../components/Question"
+import Controllers from "../components/Controllers"
+import { QUIZ_DURATION } from "../constants"
+import Timer from "../components/Timer"
+import Loading from "../components/Loading"
+import Error from "../components/Error"
+import { useGetQuestionsByLanguage } from "../hooks/questions"
+import UnFullscreenWarning from "../components/UnFullscreenWarning"
 
 const QuestionsPage = () => {
 
-    const [searchParams] = useSearchParams();
+    const [searchParams] = useSearchParams()
 
-    const { questions, language, isError, errorMessage } = useGetQuestionsByLanguage(searchParams.get("language") as string);
-    const [index, setIndex] = useState(0);
+    const { questions, language, isError, errorMessage } = useGetQuestionsByLanguage(searchParams.get("language") as string)
+    const [index, setIndex] = useState(0)
 
-    const { userAnswers } = useSelector(selectQuizInfo);
+    const { userAnswers } = useSelector(selectQuizInfo)
 
-    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isFullscreen, setIsFullscreen] = useState(false)
 
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
 
     const finishQuiz = () => {
-        navigate("/result", { replace: true });
+        navigate("/result", { replace: true })
     }
 
     const endQuizOnUnFullscreen = useCallback(() => {
-        if (!document.fullscreenElement) finishQuiz();
+        if (!document.fullscreenElement) finishQuiz()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [])
 
     const triggerFullscreen = async () => {
-        await document.documentElement.requestFullscreen();
+        await document.documentElement.requestFullscreen()
 
-        document.addEventListener("fullscreenchange", endQuizOnUnFullscreen);
-        setIsFullscreen(true);
+        document.addEventListener("fullscreenchange", endQuizOnUnFullscreen)
+        setIsFullscreen(true)
     }
 
     useEffect(() => {
         // exit full screen mode and remove the event listener when the component unmounts
         return () => {
-            document.removeEventListener("fullscreenchange", endQuizOnUnFullscreen);
+            document.removeEventListener("fullscreenchange", endQuizOnUnFullscreen)
             if (document.fullscreenElement) {
-                document.exitFullscreen();
+                document.exitFullscreen()
             }
         }
     
@@ -58,30 +58,30 @@ const QuestionsPage = () => {
     }
 
     if (!questions) {
-        return <Loading title="Loading Quiz" text="Getting your questions ready..." />;
+        return <Loading title="Loading Quiz" text="Getting your questions ready..." />
     }
 
     if (!isFullscreen) {
-        return <UnFullscreenWarning triggerFullscreen={triggerFullscreen} />;
+        return <UnFullscreenWarning triggerFullscreen={triggerFullscreen} />
     }
 
     const handleChange = (id: string, answer: string) => {
-        const newUserAnswers = { ...userAnswers, [id]: answer };
+        const newUserAnswers = { ...userAnswers, [id]: answer }
 
         dispatch(setUserAnswers(newUserAnswers))
     }
 
     const prevQuestion = () => {
         if (index !== 0) {
-            setIndex(prev => prev - 1);
+            setIndex(prev => prev - 1)
         }
     }
 
     const nextQuestion = () => {
         if (index === questions.length - 1) {
-            finishQuiz();
+            finishQuiz()
         } else {
-            setIndex(prev => prev + 1);
+            setIndex(prev => prev + 1)
         }
     }
 
@@ -112,4 +112,4 @@ const QuestionsPage = () => {
     )
 }
 
-export default QuestionsPage;
+export default QuestionsPage

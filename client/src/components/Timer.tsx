@@ -1,34 +1,34 @@
-import { useEffect, useState } from "react";
-import { formatTime } from "../utils";
+import { useEffect, useState } from "react"
+import { formatTime } from "../utils"
 
 interface IProps {
-    quizDurationSeconds: number;
-    finishQuiz: () => void;
+    quizDurationSeconds: number
+    finishQuiz: () => void
 }
 
 const Timer = ({ quizDurationSeconds, finishQuiz }: IProps) => {
 
-    const [timer, setTimer] = useState(quizDurationSeconds);
+    const [timer, setTimer] = useState(quizDurationSeconds)
 
-    const remainingPercentage = timer / quizDurationSeconds * 100;
+    const remainingPercentage = timer / quizDurationSeconds * 100
 
-    const time = formatTime(timer);
+    const time = formatTime(timer)
 
     useEffect(() => {
 
         const interval = setInterval(() => {
             setTimer((prev) => {
                 if (prev <= 0) {
-                    clearInterval(interval);
-                    finishQuiz();
-                    return 0;
+                    clearInterval(interval)
+                    finishQuiz()
+                    return 0
                 }
-                return prev - 1;
-            });
-        }, 1000);
+                return prev - 1
+            })
+        }, 1000)
 
         return () => {
-            clearInterval(interval);
+            clearInterval(interval)
         }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,4 +50,4 @@ const Timer = ({ quizDurationSeconds, finishQuiz }: IProps) => {
     )
 }
 
-export default Timer;
+export default Timer

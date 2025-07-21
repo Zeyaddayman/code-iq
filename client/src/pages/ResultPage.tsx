@@ -1,11 +1,38 @@
-import { useGetResult } from "../hooks/result";
-import PreviousResultsTable from "../components/PreviousResultsTable";
-import Loading from "../components/Loading";
-import Error from "../components/Error";
+import { useGetResult } from "../hooks/result"
+import PreviousResultsTable from "../components/PreviousResultsTable"
+import Loading from "../components/Loading"
+import Error from "../components/Error"
+import { useEffect } from "react"
+import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router"
+import { selectQuizInfo } from "../app/features/quizInfoSlice"
 
 const ResultPage = () => {
 
-    const { currentResult, isError, errorMessage } = useGetResult();
+    const { currentResult, isError, errorMessage } = useGetResult()
+
+    const { prevResults } = useSelector(selectPrevResults)
+    const { quizStarted } = useSelector(selectQuizInfo)
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (!quizStarted) {
+            navigate("/previous-results", { replace: true })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [navigate])
+
+    useEffect(() => {
+        if (currentResult) {
+            const newResults = [...prevResults, currentResult]
+
+            dispatch(setPrevResults(newResults))
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentResult, dispatch])
 
     if (isError) {
         return <Error title="Failed to Process the Result" text={errorMessage} />
@@ -35,4 +62,4 @@ const ResultPage = () => {
     )
 }
 
-export default ResultPage;
+export default ResultPage

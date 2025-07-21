@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ThemeName, THEMES } from "../../constants"
+import { ThemeName, THEMES } from "../constants"
 
 const getDefaultTheme = (): ThemeName => {
     const savedTheme = localStorage.getItem("theme") as ThemeName

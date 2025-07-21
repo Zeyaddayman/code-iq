@@ -1,17 +1,17 @@
-import { Route, Routes } from "react-router";
-import { lazy, Suspense } from "react";
-import { applyTheme } from "./utils";
-import RootLayout from "./pages/Layout";
-import HomePage from "./pages/HomePage";
-const QuestionsPage = lazy(() => import("./pages/QuestionsPage"));
-const ResultPage = lazy(() => import("./pages/ResultPage"));
-import PreviousResultsPage from "./pages/PreviousResultsPage";
-import PageNotFound from "./pages/PageNotFound";
-import Loading from "./components/Loading";
+import { Route, Routes } from "react-router"
+import { lazy, Suspense } from "react"
+import { applyTheme } from "./utils"
+import RootLayout from "./pages/Layout"
+import HomePage from "./pages/HomePage"
+const QuestionsPage = lazy(() => import("./pages/QuestionsPage"))
+const ResultPage = lazy(() => import("./pages/ResultPage"))
+import PreviousResultsPage from "./pages/PreviousResultsPage"
+import PageNotFound from "./pages/PageNotFound"
+import Loading from "./components/Loading"
 
 
 const App = () => {
-    applyTheme();
+    applyTheme()
     
     return (
         <Routes>
@@ -35,4 +35,4 @@ const App = () => {
     )
 }
 
-export default App;
+export default App

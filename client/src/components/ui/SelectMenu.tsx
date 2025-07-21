@@ -1,12 +1,12 @@
-import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react';
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
-import { ISelectMenuOption } from '../../interfaces';
+import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { ISelectMenuOption } from '../../interfaces'
 
 interface IProps {
-    title: string;
-    selected: ISelectMenuOption;
-    setSelected: (option: ISelectMenuOption) => void;
-    options: ISelectMenuOption[];
+    title: string
+    selected: ISelectMenuOption
+    setSelected: (option: ISelectMenuOption) => void
+    options: ISelectMenuOption[]
 }
 
 const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
@@ -58,4 +58,4 @@ const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
     )
 }
 
-export default SelectMenu;
+export default SelectMenu

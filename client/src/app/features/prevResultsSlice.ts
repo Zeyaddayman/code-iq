@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
-import { IResult } from '../../interfaces';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../store'
+import { IResult } from '../../interfaces'
 
 const initialState: { prevResults: IResult[] } = {
     prevResults: JSON.parse(localStorage.getItem("prev-results") || "[]") || []
@@ -19,8 +19,8 @@ export const prevResultsSlice = createSlice({
 
 export const { 
     setPrevResults
-} = prevResultsSlice.actions;
+} = prevResultsSlice.actions
 
-export const selectPrevResults = (state: RootState) => state.prevResults;
+export const selectPrevResults = (state: RootState) => state.prevResults
 
-export default prevResultsSlice.reducer;
+export default prevResultsSlice.reducer

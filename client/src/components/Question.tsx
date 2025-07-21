@@ -1,9 +1,9 @@
-import { IQuestion, IUserAnswers } from "../interfaces";
+import { IQuestion, IUserAnswers } from "../interfaces"
 
 interface IProps {
-    question: IQuestion;
+    question: IQuestion
     userAnswers: IUserAnswers
-    handleChange: (id: string, answer: string) => void;
+    handleChange: (id: string, answer: string) => void
 }
 
 const Question = ({ question, userAnswers, handleChange }: IProps) => {

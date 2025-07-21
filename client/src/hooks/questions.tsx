@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { LANGUAGES } from "../constants";
-import { ILanguage, IQuestion } from "../interfaces";
-import { useDispatch } from "react-redux";
-import { setQuizLanguage, setQuizStarted } from "../app/features/quizInfoSlice";
+import { useEffect, useState } from "react"
+import { LANGUAGES } from "../constants"
+import { ILanguage, IQuestion } from "../interfaces"
+import { useDispatch } from "react-redux"
+import { setQuizLanguage, setQuizStarted } from "../app/features/quizInfoSlice"
 
 interface IState {
-    data: { questions: IQuestion[] | null, language: ILanguage | null };
-    isError: boolean;
+    data: { questions: IQuestion[] | null, language: ILanguage | null }
+    isError: boolean
     errorMessage: string
 }
 
@@ -28,22 +28,22 @@ export const useGetQuestionsByLanguage = (quizLanguage: string) => {
                 const data = await res.json()
 
                 if (res.status === 200) {
-                    const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language);
+                    const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language)
 
                     setState((prevState) => ({
                         ...prevState,
                         data: { questions: data.questions, language: matchLanguage! }
-                    }));
+                    }))
 
-                    dispatch(setQuizStarted(true));
-                    dispatch(setQuizLanguage(matchLanguage!));
+                    dispatch(setQuizStarted(true))
+                    dispatch(setQuizLanguage(matchLanguage!))
 
                 } else {
                     setState((prevState) => ({
                         ...prevState,
                         isError: true,
                         errorMessage: data.message
-                    }));
+                    }))
                 }
 
             } catch {
@@ -51,11 +51,11 @@ export const useGetQuestionsByLanguage = (quizLanguage: string) => {
                     ...prevState,
                     isError: true,
                     errorMessage: "There was an issue loading the quiz questions. Please try again"
-                }));
+                }))
             }
         }
 
-        fetchQuestions();
+        fetchQuestions()
 
     }, [quizLanguage, dispatch])
 

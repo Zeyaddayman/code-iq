@@ -1,6 +1,6 @@
 interface IProps {
-    title: string;
-    text: string;
+    title: string
+    text: string
 }
 
 const Spinner = () => {

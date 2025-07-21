@@ -1,9 +1,9 @@
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 interface IProps {
-    title: string;
-    text: string;
+    title: string
+    text: string
 }
 
 const Error = ({ title, text }: IProps) => {

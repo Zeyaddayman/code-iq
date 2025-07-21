@@ -1,11 +1,11 @@
-import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import { LANGUAGES, RULES } from "../constants";
-import SelectMenu from "../components/ui/SelectMenu";
-import { useDispatch, useSelector } from "react-redux";
-import { selectQuizInfo, setQuizLanguage } from "../app/features/quizInfoSlice";
-import { ILanguage } from "../interfaces";
-import ThemeSwitcher from "../components/ui/ThemeSwitcher";
-import { Link } from "react-router-dom";
+import { CheckCircleIcon } from "@heroicons/react/24/outline"
+import { LANGUAGES, RULES } from "../constants"
+import SelectMenu from "../components/ui/SelectMenu"
+import { useDispatch, useSelector } from "react-redux"
+import { selectQuizInfo, setQuizLanguage } from "../app/features/quizInfoSlice"
+import { ILanguage } from "../interfaces"
+import ThemeSwitcher from "../components/ThemeSwitcher"
+import { Link } from "react-router-dom"
 
 const HomePage = () => {
     return (
@@ -39,11 +39,11 @@ const HomePage = () => {
 
 const SelectLanguageMenu = () => {
 
-    const { language } = useSelector(selectQuizInfo);
-    const dispatch = useDispatch();
+    const { language } = useSelector(selectQuizInfo)
+    const dispatch = useDispatch()
 
     const setSelectedQuizLanguage = (language: ILanguage) => {
-        dispatch(setQuizLanguage(language));
+        dispatch(setQuizLanguage(language))
     }
 
     return (
@@ -57,12 +57,11 @@ const SelectLanguageMenu = () => {
 }
 
 const StartQuizButton = () => {
-    const { language } = useSelector(selectQuizInfo);
+    const { language } = useSelector(selectQuizInfo)
 
     return (
         <Link
             to={`/questions?language=${language.slug}`}
-            replace
             className="block w-full text-center bg-primary text-white px-6 py-4 rounded-md"
         >
             Start Quiz
@@ -70,4 +69,4 @@ const StartQuizButton = () => {
     )
 }
 
-export default HomePage;
+export default HomePage

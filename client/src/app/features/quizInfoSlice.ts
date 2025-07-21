@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { ILanguage, IUserAnswers } from '../../interfaces';
-import { RootState } from '../store';
-import { LANGUAGES } from '../../constants';
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
+import { ILanguage, IUserAnswers } from '../../interfaces'
+import { RootState } from '../store'
+import { LANGUAGES } from '../../constants'
 
 interface IQuizInfo {
-    quizStarted: boolean;
-    language: ILanguage;
+    quizStarted: boolean
+    language: ILanguage
     userAnswers: IUserAnswers
 }
 
@@ -21,14 +21,14 @@ export const quizInfoSlice = createSlice({
     initialState,
     reducers: {
         setQuizLanguage: (state, action: PayloadAction<ILanguage>) => {
-            state.language = action.payload;
+            state.language = action.payload
             localStorage.setItem("quiz-language", JSON.stringify(action.payload))
         },
         setQuizStarted: (state, action: PayloadAction<boolean>) => {
-            state.quizStarted = action.payload;
+            state.quizStarted = action.payload
         },
         setUserAnswers: (state, action: PayloadAction<IUserAnswers>) => {
-            state.userAnswers = action.payload;
+            state.userAnswers = action.payload
         }
     },
 })
@@ -38,8 +38,8 @@ export const {
     setQuizStarted,
     setUserAnswers
     
-} = quizInfoSlice.actions;
+} = quizInfoSlice.actions
 
-export const selectQuizInfo = (state: RootState) => state.quizInfo;
+export const selectQuizInfo = (state: RootState) => state.quizInfo
 
-export default quizInfoSlice.reducer;
+export default quizInfoSlice.reducer

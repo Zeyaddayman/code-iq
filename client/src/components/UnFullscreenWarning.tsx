@@ -1,7 +1,7 @@
-import Button from "./ui/Button";
+import Button from "./ui/Button"
 
 interface IProps {
-    triggerFullscreen: () => Promise<void>;
+    triggerFullscreen: () => Promise<void>
 }
 
 const UnFullscreenWarning = ({ triggerFullscreen }: IProps) => {

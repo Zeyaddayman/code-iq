@@ -1,15 +1,15 @@
 import Button from "./ui/Button"
 
 interface IProps {
-    questionsLength: number;
-    index: number;
+    questionsLength: number
+    index: number
     nextQuestion: () => void
     prevQuestion: () => void
 }
 
 const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IProps) => {
-    const isFirstQuestion = index === 0;
-    const isLastQuestion = index === questionsLength - 1;
+    const isFirstQuestion = index === 0
+    const isLastQuestion = index === questionsLength - 1
     return (
         <div className="flex flex-1 items-end justify-between gap-5">
             <Button

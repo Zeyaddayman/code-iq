@@ -1,28 +1,24 @@
 import { useEffect, useState } from "react"
 import { IResult } from "../interfaces"
-import { useDispatch, useSelector } from "react-redux";
-import { selectQuizInfo, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice";
-import { useNavigate } from "react-router";
-import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice";
+import { useDispatch, useSelector } from "react-redux"
+import { selectQuizInfo, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice"
 
 interface IState {
-    currentResult: IResult | null;
-    isError: boolean;
-    errorMessage: string;
+    currentResult: IResult | null
+    isError: boolean
+    errorMessage: string
 }
 
 export const useGetResult = () => {
-    const { quizStarted, userAnswers, language } = useSelector(selectQuizInfo);
-    const { prevResults } = useSelector(selectPrevResults)
+    const { quizStarted, userAnswers, language } = useSelector(selectQuizInfo)
 
     const [state, setState] = useState<IState>({
         currentResult: null,
         isError: false,
         errorMessage: "There was an issue processing the quiz result."
-    });
+    })
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     useEffect(() => {
         async function processQuizResult() {
@@ -35,33 +31,28 @@ export const useGetResult = () => {
                     })
                 })
 
-                const result: IResult = await res.json();
+                const result: IResult = await res.json()
 
-                result["language"] = language.name;
+                result["language"] = language.name
 
-                const newResults = [...prevResults, result];
-
-                dispatch(setPrevResults(newResults));
                 setState((prev) => ({
                     ...prev,
                     currentResult: result
-                }));
+                }))
 
             } catch {
                 setState((prev) => ({
                     ...prev,
                     isError: true,
-                }));
+                }))
             } finally {
                 dispatch(setQuizStarted(false))
-                dispatch(setUserAnswers({}));
+                dispatch(setUserAnswers({}))
             }
         }
 
         if (quizStarted) {
-            processQuizResult();
-        } else {
-            navigate("/previous-results", { replace: true });
+            processQuizResult()
         }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

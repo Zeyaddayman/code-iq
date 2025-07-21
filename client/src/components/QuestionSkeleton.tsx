@@ -13,4 +13,4 @@ const QuestionSkeleton = () => {
     )
 }
 
-export default QuestionSkeleton;
+export default QuestionSkeleton
