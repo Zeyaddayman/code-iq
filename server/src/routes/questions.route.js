@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const { QUIZ_QUESTIONS_COUNT } = require('../constants');
-const { default: prisma } = require('../lib');
+const express = require('express')
+const router = express.Router()
+const { QUIZ_QUESTIONS_COUNT } = require('../constants')
+const { default: prisma } = require('../lib')
 
 router.get('/', async (req, res) => {
 
@@ -19,7 +19,7 @@ router.get('/', async (req, res) => {
             { $sample: { size: QUIZ_QUESTIONS_COUNT } }
         ],
         cursor: {}
-    });
+    })
 
     const questions = result.cursor.firstBatch.map((question) => ({
         id: question._id.$oid,
@@ -35,4 +35,4 @@ router.get('/', async (req, res) => {
     return res.status(200).json({status: 'success', questions, language })
 })
 
-module.exports = router;
+module.exports = router

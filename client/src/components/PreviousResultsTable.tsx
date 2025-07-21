@@ -151,7 +151,7 @@ const PreviousResultsTable = () => {
                     </Button>
                 </div>
             ) : (
-                <p className="text-2xl text-center mt-10 text-secondary">No previous results found.</p>
+                <p className="text-2xl text-center mt-10">No previous results found.</p>
             )}
         </section>
     )

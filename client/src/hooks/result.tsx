@@ -28,7 +28,8 @@ export const useGetResult = () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         userAnswers
-                    })
+                    }),
+                    signal: AbortSignal.timeout(15000)
                 })
 
                 const result: IResult = await res.json()
