@@ -91,8 +91,9 @@ const PreviousResultsTable = () => {
                 />
             </div>
             {filteredData.length >= 1 ? (
+                <>
                 <div className="relative overflow-x-auto rounded-sm bg-white">
-                    <table className="w-full text-center mb-10">
+                    <table className="w-full text-center">
                         <thead className="font-semibold">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
@@ -140,8 +141,9 @@ const PreviousResultsTable = () => {
                             ))}
                         </tbody>
                     </table>
+                </div>
+                <div className="my-10">
                     <Button
-                        width="full"
                         onClick={() => {
                             dispatch(setPrevResults([]))
                         }}
@@ -150,6 +152,7 @@ const PreviousResultsTable = () => {
                         Remove Previous Results
                     </Button>
                 </div>
+                </>
             ) : (
                 <p className="text-2xl text-center mt-10">No previous results found.</p>
             )}

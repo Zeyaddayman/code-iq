@@ -8,7 +8,7 @@ interface IProps {
 
 const Question = ({ question, userAnswers, handleChange }: IProps) => {
     return (
-        <section>
+        <section className="select-none">
             <h2 className="text-2xl mb-8 text-center font-semibold">{question.title}</h2>
             <ul className="flex flex-col gap-3 mb-10">
                 {question.answers.map((answer) => (
@@ -24,7 +24,7 @@ const Question = ({ question, userAnswers, handleChange }: IProps) => {
                         />
                         <label
                             htmlFor={answer}
-                            className="p-4 rounded-md block shadow-sm bg-white peer-checked:bg-primary hover:bg-primary/50 hover:text-white peer-checked:text-white transition cursor-pointer"
+                            className="p-4 rounded-md block shadow-sm bg-white peer-checked:bg-primary peer-checked:text-white ring-2 ring-transparent hover:ring-primary transition cursor-pointer"
                         >
                             {answer}
                         </label>
