@@ -11,28 +11,34 @@ router.get('/', async (req, res) => {
         return res.status(400).json({status: 'failed', message: "Programming language required"})
     }
 
-    // random questions by language
-    const result = await prisma.$runCommandRaw({
-        aggregate: 'Question',
-        pipeline: [
-            { $match: { language } },
-            { $sample: { size: QUIZ_QUESTIONS_COUNT } }
-        ],
-        cursor: {}
+    const allLanguageQuestions = await prisma.question.findMany({
+        where: {
+            language
+        },
+        select: {
+            id: true,
+            title: true,
+            answers: true
+        }
     })
 
-    const questions = result.cursor.firstBatch.map((question) => ({
-        id: question._id.$oid,
-        title: question.title,
-        language: question.language,
-        answers: question.answers,
-    }))
-
-    if (questions.length !== QUIZ_QUESTIONS_COUNT) {
-        return res.status(400).json({status: 'failed', message: `Language ${language} is not available`})
+    if (allLanguageQuestions.length < QUIZ_QUESTIONS_COUNT) {
+        return res.status(400).json({status: 'failed', message: `Not enough questions for ${language} language`})
     }
 
-    return res.status(200).json({status: 'success', questions, language })
+    const randomQuestions = []
+    const selectedIndexes = []
+
+    while (randomQuestions.length < QUIZ_QUESTIONS_COUNT) {
+        const randomIndex = Math.floor(Math.random() * allLanguageQuestions.length)
+
+        if (selectedIndexes[randomIndex]) continue
+
+        selectedIndexes.push(randomIndex)
+        randomQuestions.push(allLanguageQuestions[randomIndex])
+    }
+
+    return res.status(200).json({ status: 'success', questions: randomQuestions, language })
 })
 
 module.exports = router
