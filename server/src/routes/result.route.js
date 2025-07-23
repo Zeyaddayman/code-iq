@@ -13,20 +13,28 @@ router.post('/', async (req, res) => {
 
     let earnedPoints = 0
 
+    const wrongAnsweredQuestions = []
+
     for (const id in userAnswers) {
         const question = await prisma.question.findUnique({
-            where: {
-                id
-            },
+            where: { id },
             select: {
+                title: true,
                 correct: true
             }
         })
 
-        const correctAnswer = question ? question.correct : null
+        const correctAnswer = question.correct
 
-        if (correctAnswer && correctAnswer === userAnswers[id]) {
+        if (correctAnswer === userAnswers[id]) {
             earnedPoints += 10
+        } else {
+            const wrongAnsweredQuestion = {
+                title: question.title,
+                userAnswer: userAnswers[id],
+                correctAnswer
+            }
+            wrongAnsweredQuestions.push(wrongAnsweredQuestion)
         }
     }
 
@@ -43,7 +51,8 @@ router.post('/', async (req, res) => {
         quizPoints,
         earnedPoints,
         percentage,
-        isPassed
+        isPassed,
+        wrongAnsweredQuestions
     }
 
     res.status(200).json(result)
