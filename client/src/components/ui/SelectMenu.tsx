@@ -1,6 +1,7 @@
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { ISelectMenuOption } from '../../interfaces'
+import { useEffect, useRef, useState } from 'react'
 
 interface IProps {
     title: string
@@ -10,11 +11,32 @@ interface IProps {
 }
 
 const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
+    const [placement, setPlacement] = useState<'top' | 'bottom'>('bottom')
+    const buttonRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (!buttonRef.current) return
+
+        const buttonRect = buttonRef.current.getBoundingClientRect()
+        const spaceBelow = window.innerHeight - buttonRect.bottom
+        const spaceAbove = buttonRect.top
+        const estimatedOptionsHeight = 224 // max height for options is 224px
+
+        console.log(buttonRect)
+        console.log(window.innerHeight)
+
+        if (spaceBelow < estimatedOptionsHeight && spaceAbove > spaceBelow) {
+            setPlacement('top')
+        } else {
+            setPlacement('bottom')
+        }
+    }, [])
+
     return (
         <Listbox value={selected} onChange={setSelected}>
             <div className='flex flex-col flex-1 min-w-48'>
                 <Label className="text-xl mb-3 font-semibold">{ title }</Label>
-                <div className="relative">
+                <div className="relative" ref={buttonRef}>
                     <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm/6">
                         <span className="flex items-center">
                             {selected.icon && (
@@ -29,7 +51,7 @@ const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
 
                     <ListboxOptions
                         transition
-                        className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm"
+                        className={`absolute max-h-56 w-full z-10 ${placement === "top" ? "bottom-full mb-1": "mt-1"} overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none data-[closed]:data-[leave]:opacity-0 data-[leave]:transition data-[leave]:duration-100 data-[leave]:ease-in sm:text-sm`}
                     >
                         {options.map((option) => (
                             <ListboxOption
