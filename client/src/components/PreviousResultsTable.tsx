@@ -4,7 +4,6 @@ import SelectMenu from "./ui/SelectMenu"
 import { IResult, ISelectMenuOption } from "../interfaces"
 import { LANGUAGES } from "../constants"
 import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice"
-import { Link } from "react-router-dom"
 import Button from "./ui/Button"
 
 const sortByTimeOptions: ISelectMenuOption[] = [
@@ -69,12 +68,6 @@ const PreviousResultsTable = () => {
 
     return (
         <section>
-            <Link
-                to={"/"}
-                className="px-6 py-3 rounded-md block text-center bg-primary text-white font-semibold"
-            >
-                Start New Quiz
-            </Link>
             <h2 className="font-bold text-xl md:text-3xl my-10">Previous Results</h2>
             <div className="flex gap-5 justify-between flex-wrap mb-3">
                 <SelectMenu

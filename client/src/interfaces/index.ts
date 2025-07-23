@@ -4,15 +4,15 @@ export interface IQuestion {
     answers: string[]
     language: string
 }
-export interface ISelectMenuOption {
+export interface ILanguage {
     name: string
     slug: string
     icon?: string
 }
 
-export type ILanguage = ISelectMenuOption
+export type ISelectMenuOption = ILanguage
 
-export interface IUserAnswers { [id: string]: string }
+export type IUserAnswers = { [id: string]: string }
 
 export interface IResult {
     date: Date
@@ -23,4 +23,11 @@ export interface IResult {
     earnedPoints: number
     percentage: number
     isPassed: boolean
+    wrongAnsweredQuestions: wrongAnsweredQuestion[]
+}
+
+export type wrongAnsweredQuestion = {
+    title: string
+    userAnswer: string
+    correctAnswer: string
 }

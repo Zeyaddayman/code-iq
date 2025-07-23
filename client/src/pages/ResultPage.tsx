@@ -7,6 +7,8 @@ import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSl
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router"
 import { selectQuizInfo } from "../app/features/quizInfoSlice"
+import UserWrongAnswers from "../components/UserWrongAnswers"
+import { Link } from "react-router-dom"
 
 const ResultPage = () => {
 
@@ -44,9 +46,9 @@ const ResultPage = () => {
 
     return (
         <>
-        <section className="border-b border-secondary/30 font-semibold mb-10">
-            <h2 className="font-bold text-center text-xl md:text-3xl">{currentResult.language} Quiz Result</h2>
-            <div className="flex flex-col gap-3 py-10">
+        <section className="border-b border-secondary/30 py-10 font-semibold mb-10">
+            <h2 className="font-bold text-center text-xl md:text-3xl mb-10">{currentResult.language} Quiz Result</h2>
+            <div className="flex flex-col gap-3 mb-10">
                 <p className="flex justify-between">Attempts: <span>{currentResult.attempts}/{currentResult.questions}</span></p>
                 <p className="flex justify-between">Points: <span>{currentResult.earnedPoints}/{currentResult.quizPoints}</span></p>
                 <p className="flex justify-between">Percentage: <span>{currentResult.percentage}%</span></p>
@@ -56,7 +58,14 @@ const ResultPage = () => {
                     </span>
                 </p>
             </div>
+            <Link
+                to={"/"}
+                className="px-6 py-3 rounded-md block text-center bg-primary text-white font-semibold"
+            >
+                Start New Quiz
+            </Link>
         </section>
+        {currentResult.wrongAnsweredQuestions.length > 0 && <UserWrongAnswers wrongAnsweredQuestions={currentResult.wrongAnsweredQuestions} />}
         <PreviousResultsTable />
         </>
     )

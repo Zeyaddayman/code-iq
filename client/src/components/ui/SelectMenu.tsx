@@ -20,12 +20,9 @@ const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
         const buttonRect = buttonRef.current.getBoundingClientRect()
         const spaceBelow = window.innerHeight - buttonRect.bottom
         const spaceAbove = buttonRect.top
-        const estimatedOptionsHeight = 224 // max height for options is 224px
+        const optionsMaxHeight = 224
 
-        console.log(buttonRect)
-        console.log(window.innerHeight)
-
-        if (spaceBelow < estimatedOptionsHeight && spaceAbove > spaceBelow) {
+        if (spaceBelow < optionsMaxHeight && spaceAbove > spaceBelow) {
             setPlacement('top')
         } else {
             setPlacement('bottom')
