@@ -27,14 +27,14 @@ router.get('/', async (req, res) => {
     }
 
     const randomQuestions = []
-    const selectedIndexes = []
+    const selectedIDs = {}
 
     while (randomQuestions.length < QUIZ_QUESTIONS_COUNT) {
         const randomIndex = Math.floor(Math.random() * allLanguageQuestions.length)
 
-        if (selectedIndexes[randomIndex]) continue
+        if (selectedIDs[allLanguageQuestions[randomIndex].id]) continue
 
-        selectedIndexes.push(randomIndex)
+        selectedIDs[allLanguageQuestions[randomIndex].id] = true
         randomQuestions.push(allLanguageQuestions[randomIndex])
     }
 
