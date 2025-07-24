@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from "react-redux"
 import { selectQuizInfo, setUserAnswers } from "../app/features/quizInfoSlice"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Question from "../components/Question"
 import Controllers from "../components/Controllers"
 import { QUIZ_DURATION } from "../constants"
@@ -27,18 +26,18 @@ const QuestionsPage = () => {
     const navigate = useNavigate()
 
 
-    const finishQuiz = () => {
+    const finishQuiz = useCallback(() => {
         navigate("/result", { replace: true })
-    }
+    }, [navigate])
 
-    const endQuizOnUnFullscreen = () => {
+    const endQuizOnUnFullscreen = useCallback(() => {
         if (!document.fullscreenElement) finishQuiz()
-    }
+    }, [finishQuiz])
 
     const triggerFullscreen = async () => {
         await document.documentElement.requestFullscreen()
 
-        document.addEventListener("fullscreenchange", endQuizOnUnFullscreen)
+        window.addEventListener("fullscreenchange", endQuizOnUnFullscreen)
         window.addEventListener('blur', finishQuiz)
         setIsFullscreen(true)
     }
@@ -46,13 +45,13 @@ const QuestionsPage = () => {
     useEffect(() => {
         // exit full screen mode and remove the events listener when the component unmounts
         return () => {
-            document.removeEventListener("fullscreenchange", endQuizOnUnFullscreen)
+            window.removeEventListener("fullscreenchange", endQuizOnUnFullscreen)
             window.removeEventListener('blur', finishQuiz)
             if (document.fullscreenElement) {
                 document.exitFullscreen()
             }
         }
-    }, [])
+    }, [endQuizOnUnFullscreen, finishQuiz])
 
     if (isError) {
         return <Error title="Failed to Get Questions" text={errorMessage} />
