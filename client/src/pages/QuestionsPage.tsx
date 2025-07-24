@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useDispatch, useSelector } from "react-redux"
 import { selectQuizInfo, setUserAnswers } from "../app/features/quizInfoSlice"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import Question from "../components/Question"
 import Controllers from "../components/Controllers"
 import { QUIZ_DURATION } from "../constants"
@@ -9,7 +10,7 @@ import Timer from "../components/Timer"
 import Loading from "../components/Loading"
 import Error from "../components/Error"
 import { useGetQuestionsByLanguage } from "../hooks/questions"
-import UnFullscreenWarning from "../components/UnFullscreenWarning"
+import QuizInstructions from "../components/QuizInstructions"
 
 const QuestionsPage = () => {
 
@@ -30,28 +31,28 @@ const QuestionsPage = () => {
         navigate("/result", { replace: true })
     }
 
-    const endQuizOnUnFullscreen = useCallback(() => {
+    const endQuizOnUnFullscreen = () => {
         if (!document.fullscreenElement) finishQuiz()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }
 
     const triggerFullscreen = async () => {
         await document.documentElement.requestFullscreen()
 
         document.addEventListener("fullscreenchange", endQuizOnUnFullscreen)
+        window.addEventListener('blur', finishQuiz)
         setIsFullscreen(true)
     }
 
     useEffect(() => {
-        // exit full screen mode and remove the event listener when the component unmounts
+        // exit full screen mode and remove the events listener when the component unmounts
         return () => {
             document.removeEventListener("fullscreenchange", endQuizOnUnFullscreen)
+            window.removeEventListener('blur', finishQuiz)
             if (document.fullscreenElement) {
                 document.exitFullscreen()
             }
         }
-    
-    }, [endQuizOnUnFullscreen])
+    }, [])
 
     if (isError) {
         return <Error title="Failed to Get Questions" text={errorMessage} />
@@ -62,7 +63,7 @@ const QuestionsPage = () => {
     }
 
     if (!isFullscreen) {
-        return <UnFullscreenWarning triggerFullscreen={triggerFullscreen} />
+        return <QuizInstructions triggerFullscreen={triggerFullscreen} />
     }
 
     const handleChange = (id: string, answer: string) => {
