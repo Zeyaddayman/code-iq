@@ -1,13 +1,14 @@
 const express = require('express')
 const router = express.Router()
-const { QUIZ_QUESTIONS_COUNT } = require('../constants')
+
+const { QUIZ_QUESTIONS_COUNT, POINTS_PER_QUESTION } = require('../constants')
 const { default: prisma } = require('../lib')
 
 router.post('/', async (req, res) => {
 
     const { userAnswers } = req.body
 
-    const quizPoints = QUIZ_QUESTIONS_COUNT * 10
+    const quizPoints = QUIZ_QUESTIONS_COUNT * POINTS_PER_QUESTION
 
     let attempts = Object.keys(userAnswers).length
 
@@ -15,7 +16,8 @@ router.post('/', async (req, res) => {
 
     const wrongAnsweredQuestions = []
 
-    for (const id in userAnswers) {
+    await Promise.all(Object.keys(userAnswers).map(async (id) => {
+
         const question = await prisma.question.findUnique({
             where: { id },
             select: {
@@ -26,17 +28,18 @@ router.post('/', async (req, res) => {
 
         const correctAnswer = question.correct
 
-        if (correctAnswer === userAnswers[id]) {
-            earnedPoints += 10
-        } else {
+        if (correctAnswer === userAnswers[id]) earnedPoints += POINTS_PER_QUESTION
+        else {
             const wrongAnsweredQuestion = {
                 title: question.title,
                 userAnswer: userAnswers[id],
                 correctAnswer
             }
+
             wrongAnsweredQuestions.push(wrongAnsweredQuestion)
         }
-    }
+
+    }))
 
     const percentage = earnedPoints / quizPoints * 100
 

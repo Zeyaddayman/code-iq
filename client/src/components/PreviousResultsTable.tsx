@@ -47,23 +47,18 @@ const PreviousResultsTable = () => {
 
     useEffect(() => {
 
-        let newFilteredData
+        let newFilteredData = [...prevResults]
 
-        if (filters.sortByLanguage.slug === "all") {
-            newFilteredData = prevResults.filter(() => true)
-        } else {
-            newFilteredData = prevResults.filter((result) => {
-                return result.language === filters.sortByLanguage.name
-            })
+        if (filters.sortByLanguage.slug !== "all") {
+            newFilteredData = newFilteredData.filter((result) => result.language === filters.sortByLanguage.name)
         }
 
-        if (filters.sortByTime.slug === "oldest") {
-            setFilteredData(newFilteredData)
-        } else if (filters.sortByTime.slug === "newest") {
-            newFilteredData = newFilteredData.reverse()
-            setFilteredData(newFilteredData)
+        if (filters.sortByTime.slug === "newest") {
+            newFilteredData.reverse()
         }
-        
+
+        setFilteredData(newFilteredData)
+
     }, [filters.sortByLanguage.name, filters.sortByLanguage.slug, filters.sortByTime.slug, prevResults])
 
     return (

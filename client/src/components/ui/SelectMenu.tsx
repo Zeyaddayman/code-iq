@@ -1,7 +1,7 @@
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { ISelectMenuOption } from '../../interfaces'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 interface IProps {
     title: string
@@ -12,28 +12,25 @@ interface IProps {
 
 const SelectMenu = ({ title, options, selected, setSelected }: IProps) => {
     const [placement, setPlacement] = useState<'top' | 'bottom'>('bottom')
-    const buttonRef = useRef<HTMLDivElement>(null)
+    const selectRef = useRef<HTMLDivElement>(null)
 
-    useEffect(() => {
-        if (!buttonRef.current) return
+    const handlePlacement = () => {
+        const el = selectRef.current
+        if (!el) return
 
-        const buttonRect = buttonRef.current.getBoundingClientRect()
-        const spaceBelow = window.innerHeight - buttonRect.bottom
-        const spaceAbove = buttonRect.top
+        const rect = el.getBoundingClientRect()
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+        const spaceBelow = viewportHeight - rect.bottom
         const optionsMaxHeight = 224
 
-        if (spaceBelow < optionsMaxHeight && spaceAbove > spaceBelow) {
-            setPlacement('top')
-        } else {
-            setPlacement('bottom')
-        }
-    }, [])
+        setPlacement(( spaceBelow > optionsMaxHeight) ? 'bottom' : 'top')
+    }
 
     return (
         <Listbox value={selected} onChange={setSelected}>
             <div className='flex flex-col flex-1 min-w-48'>
                 <Label className="text-xl mb-3 font-semibold">{ title }</Label>
-                <div className="relative" ref={buttonRef}>
+                <div ref={selectRef} onClick={handlePlacement} className="relative">
                     <ListboxButton className="relative w-full cursor-default rounded-md bg-white py-3 pl-3 pr-10 text-left shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-primary sm:text-sm/6">
                         <span className="flex items-center">
                             {selected.icon && (

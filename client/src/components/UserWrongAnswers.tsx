@@ -1,13 +1,13 @@
-import { wrongAnsweredQuestion } from "../interfaces"
+import { WrongAnsweredQuestion } from "../interfaces"
 
 interface IProps {
-    wrongAnsweredQuestions: wrongAnsweredQuestion[]
+    wrongAnsweredQuestions: WrongAnsweredQuestion[]
 }
 
 const UserWrongAnswers = ({ wrongAnsweredQuestions }: IProps) => {
     return (
-        <section>
-            <h2 className="font-bold text-xl md:text-3xl my-10">Wrong Answers</h2>
+        <section className="border-b border-secondary/30 py-10">
+            <h2 className="font-bold text-xl md:text-3xl mb-10">Wrong Answers</h2>
             <ul className="space-y-5">
                 {wrongAnsweredQuestions.map((question, i) => (
                     <li

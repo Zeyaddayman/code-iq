@@ -46,7 +46,7 @@ const ResultPage = () => {
 
     return (
         <>
-        <section className="border-b border-secondary/30 py-10 font-semibold mb-10">
+        <section className="border-b border-secondary/30 py-10 font-semibold">
             <h2 className="font-bold text-center text-xl md:text-3xl mb-10">{currentResult.language} Quiz Result</h2>
             <div className="flex flex-col gap-3 mb-10">
                 <p className="flex justify-between">Attempts: <span>{currentResult.attempts}/{currentResult.questions}</span></p>

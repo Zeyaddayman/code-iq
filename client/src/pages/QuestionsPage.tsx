@@ -43,7 +43,7 @@ const QuestionsPage = () => {
     }
 
     useEffect(() => {
-        // exit full screen mode and remove the events listener when the component unmounts
+        // Exit full screen when quiz ends
         return () => {
             window.removeEventListener("fullscreenchange", endQuizOnUnFullscreen)
             window.removeEventListener('blur', finishQuiz)
@@ -65,7 +65,7 @@ const QuestionsPage = () => {
         return <QuizInstructions triggerFullscreen={triggerFullscreen} />
     }
 
-    const handleChange = (id: string, answer: string) => {
+    const handleAnswerChange = (id: string, answer: string) => {
         const newUserAnswers = { ...userAnswers, [id]: answer }
 
         dispatch(setUserAnswers(newUserAnswers))
@@ -100,7 +100,7 @@ const QuestionsPage = () => {
             <Question
                 question={questions[index]}
                 userAnswers={userAnswers}
-                handleChange={handleChange}
+                handleChange={handleAnswerChange}
             />
             <Controllers
                 questionsLength={questions.length}

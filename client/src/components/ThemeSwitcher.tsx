@@ -1,15 +1,20 @@
 import { useState } from "react"
-import { ThemeName, THEMES } from "../constants"
+import { DEFAULT_THEME_NAME, ThemeName, THEMES } from "../constants"
 
-const getDefaultTheme = (): ThemeName => {
-    const savedTheme = localStorage.getItem("theme") as ThemeName
+const getSavedTheme = (): ThemeName => {
 
-    return savedTheme
+    const savedTheme = localStorage.getItem("theme")
+
+    if (savedTheme && THEMES.some((theme) => theme.name === savedTheme)) {
+        return savedTheme as ThemeName
+    }
+
+    else return DEFAULT_THEME_NAME
 }
 
 const ThemeSwitcher = () => {
 
-    const [themeName, setThemeName] = useState(getDefaultTheme())
+    const [themeName, setThemeName] = useState<ThemeName>(getSavedTheme)
 
     const handleChangeTheme = (themeName: ThemeName) => {
         document.body.setAttribute("data-theme", themeName)

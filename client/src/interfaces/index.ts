@@ -23,10 +23,10 @@ export interface IResult {
     earnedPoints: number
     percentage: number
     isPassed: boolean
-    wrongAnsweredQuestions: wrongAnsweredQuestion[]
+    wrongAnsweredQuestions: WrongAnsweredQuestion[]
 }
 
-export type wrongAnsweredQuestion = {
+export interface WrongAnsweredQuestion {
     title: string
     userAnswer: string
     correctAnswer: string

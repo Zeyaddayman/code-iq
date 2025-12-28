@@ -21,7 +21,7 @@ const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IPr
             </Button>
             <Button
                 width="full"
-                className={`${isLastQuestion ? "bg-transparent outline outline-primary !text-black" : "bg-primary"}`}
+                className={`${isLastQuestion ? "bg-red-500" : "bg-primary"}`}
                 onClick={nextQuestion}
             >
                 {isLastQuestion ? "Finish" : "Next"}

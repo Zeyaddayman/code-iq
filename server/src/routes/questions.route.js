@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const { QUIZ_QUESTIONS_COUNT } = require('../constants')
-const { default: prisma } = require('../lib')
+
+const { QUIZ_QUESTIONS_COUNT, LANGUAGES } = require('../constants')
+const { default: db } = require('../lib')
 
 router.get('/', async (req, res) => {
 
@@ -11,10 +12,12 @@ router.get('/', async (req, res) => {
         return res.status(400).json({status: 'failed', message: "Programming language required"})
     }
 
-    const allLanguageQuestions = await prisma.question.findMany({
-        where: {
-            language
-        },
+    if (!LANGUAGES.includes(language)) {
+        return res.status(400).json({status: 'failed', message: "Unsupported programming language"})
+    }
+
+    const allLanguageQuestions = await db.question.findMany({
+        where: { language },
         select: {
             id: true,
             title: true,
@@ -22,16 +25,14 @@ router.get('/', async (req, res) => {
         }
     })
 
-    if (allLanguageQuestions.length < QUIZ_QUESTIONS_COUNT) {
-        return res.status(400).json({status: 'failed', message: `Not enough questions for ${language} language`})
-    }
-
     const randomQuestions = []
     const selectedIDs = {}
 
     while (randomQuestions.length < QUIZ_QUESTIONS_COUNT) {
+
         const randomIndex = Math.floor(Math.random() * allLanguageQuestions.length)
 
+        // Check if question is already selected
         if (selectedIDs[allLanguageQuestions[randomIndex].id]) continue
 
         selectedIDs[allLanguageQuestions[randomIndex].id] = true
