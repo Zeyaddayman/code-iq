@@ -2,20 +2,23 @@ import { useEffect, useState } from "react"
 import { IResult } from "../interfaces"
 import { useDispatch, useSelector } from "react-redux"
 import { selectQuizInfo, setQuizStarted, setUserAnswers } from "../app/features/quizInfoSlice"
+import { selectPrevResults, setPrevResults } from "../app/features/prevResultsSlice"
 
 interface IState {
-    currentResult: IResult | null
-    isError: boolean
-    errorMessage: string
+    result: IResult | null
+    isLoading: boolean
+    errorMessage: string | null
 }
 
 export const useGetResult = () => {
+
     const { quizStarted, userAnswers, language } = useSelector(selectQuizInfo)
+    const { prevResults } = useSelector(selectPrevResults)
 
     const [state, setState] = useState<IState>({
-        currentResult: null,
-        isError: false,
-        errorMessage: "There was an issue processing the quiz result."
+        result: null,
+        isLoading: false,
+        errorMessage: null
     })
 
     const dispatch = useDispatch()
@@ -23,12 +26,13 @@ export const useGetResult = () => {
     useEffect(() => {
         async function processQuizResult() {
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/result`, {
+
+                setState((prev) => ({ ...prev, isLoading: true }))
+
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/result`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userAnswers
-                    }),
+                    body: JSON.stringify({ userAnswers }),
                     signal: AbortSignal.timeout(15000)
                 })
 
@@ -36,32 +40,33 @@ export const useGetResult = () => {
 
                 result["language"] = language.name
 
-                setState((prev) => ({
-                    ...prev,
-                    currentResult: result
-                }))
+                setState((prev) => ({ ...prev, result }))
+
+                const newResults = [...prevResults, result]
+                
+                dispatch(setPrevResults(newResults))
 
             } catch {
                 setState((prev) => ({
                     ...prev,
-                    isError: true,
+                    errorMessage: "There was an issue processing your quiz result"
                 }))
             } finally {
-                dispatch(setQuizStarted(false))
+                setState((prev) => ({ ...prev, isLoading: false }))
+
                 dispatch(setUserAnswers({}))
+                dispatch(setQuizStarted(false))
             }
         }
 
-        if (quizStarted) {
-            processQuizResult()
-        }
+        if (quizStarted) processQuizResult()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return {
-        currentResult: state.currentResult,
-        isError: state.isError,
-        errorMessage: state.errorMessage
+        result: state.result,
+        isLoading: state.isLoading,
+        errorMessage: state.errorMessage,
     }
 }

@@ -1,10 +1,10 @@
 import Button from "./ui/Button"
 
 interface IProps {
-    triggerFullscreen: () => Promise<void>
+    startQuiz: () => Promise<void>
 }
 
-const QuizInstructions = ({ triggerFullscreen }: IProps) => {
+const QuizInstructions = ({ startQuiz }: IProps) => {
     return (
         <div>
             <h2 className="text-2xl md:text-3xl text-center font-bold">📝 Quiz Instructions</h2>
@@ -18,7 +18,7 @@ const QuizInstructions = ({ triggerFullscreen }: IProps) => {
                     ⚠️ <strong>Warning:</strong> Leaving fullscreen or switching tabs will end the quiz immediately and lose all progress.
                 </p>
             </div>
-            <Button onClick={triggerFullscreen} width="full" className="bg-primary">
+            <Button onClick={startQuiz} width="full" className="bg-primary">
                 I Understand, Start Quiz
             </Button>
         </div>

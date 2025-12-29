@@ -15,12 +15,18 @@ const QuestionsPage = () => {
 
     const [searchParams] = useSearchParams()
 
-    const { questions, language, isError, errorMessage } = useGetQuestionsByLanguage(searchParams.get("language") as string)
+    const {
+        triggerGetQuestions,
+        isLoading: isGettingQuestions,
+        questions,
+        language,
+        errorMessage
+
+    } = useGetQuestionsByLanguage(searchParams.get("language") as string)
+
     const [index, setIndex] = useState(0)
 
-    const { userAnswers } = useSelector(selectQuizInfo)
-
-    const [isFullscreen, setIsFullscreen] = useState(false)
+    const { userAnswers, quizStarted } = useSelector(selectQuizInfo)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -34,35 +40,36 @@ const QuestionsPage = () => {
         if (!document.fullscreenElement) finishQuiz()
     }, [finishQuiz])
 
-    const triggerFullscreen = async () => {
+    const startQuiz = async () => {
         await document.documentElement.requestFullscreen()
 
         window.addEventListener("fullscreenchange", endQuizOnUnFullscreen)
         window.addEventListener('blur', finishQuiz)
-        setIsFullscreen(true)
+
+        await triggerGetQuestions()
     }
+
 
     useEffect(() => {
         // Exit full screen when quiz ends
         return () => {
             window.removeEventListener("fullscreenchange", endQuizOnUnFullscreen)
             window.removeEventListener('blur', finishQuiz)
-            if (document.fullscreenElement) {
-                document.exitFullscreen()
-            }
+
+            if (document.fullscreenElement) document.exitFullscreen()
         }
     }, [endQuizOnUnFullscreen, finishQuiz])
 
-    if (isError) {
+    if (errorMessage) {
         return <Error title="Failed to Get Questions" text={errorMessage} />
     }
 
-    if (!questions) {
+    if (isGettingQuestions) {
         return <Loading title="Loading Quiz" text="Getting your questions ready..." />
     }
 
-    if (!isFullscreen) {
-        return <QuizInstructions triggerFullscreen={triggerFullscreen} />
+    if (!quizStarted) {
+        return <QuizInstructions startQuiz={startQuiz} />
     }
 
     const handleAnswerChange = (id: string, answer: string) => {
@@ -72,9 +79,7 @@ const QuestionsPage = () => {
     }
 
     const prevQuestion = () => {
-        if (index !== 0) {
-            setIndex(prev => prev - 1)
-        }
+        if (index !== 0) setIndex(prev => prev - 1)
     }
 
     const nextQuestion = () => {

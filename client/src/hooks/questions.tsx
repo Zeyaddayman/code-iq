@@ -1,68 +1,80 @@
-import { useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { LANGUAGES } from "../constants"
 import { ILanguage, IQuestion } from "../interfaces"
 import { useDispatch } from "react-redux"
 import { setQuizLanguage, setQuizStarted } from "../app/features/quizInfoSlice"
 
+async function fetchQuestions(quizLanguage: string) {
+    try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/questions?language=${quizLanguage}`,
+            { signal: AbortSignal.timeout(15000) }
+        )
+
+        const data = await res.json()
+
+        if (res.status === 200) {
+            const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language)
+
+            return {
+                data: { questions: data.questions, language: matchLanguage! },
+                errorMessage: null
+            }
+        }
+        else {
+            return {
+                data: { questions: [], language: null },
+                errorMessage: data.message
+            }
+        }
+    }
+    catch {
+        return {
+            data: { questions: [], language: null },
+            errorMessage: "There was an issue loading the quiz questions. Please try again"
+        }
+    }
+}
+
 interface IState {
-    data: { questions: IQuestion[] | null, language: ILanguage | null }
-    isError: boolean
-    errorMessage: string
+    data: { questions: IQuestion[], language: ILanguage | null }
+    isLoading: boolean
+    errorMessage: string | null
 }
 
 export const useGetQuestionsByLanguage = (quizLanguage: string) => {
 
     const [state, setState] = useState<IState>({
-        data: { questions: null, language: null },
-        isError: false,
-        errorMessage: "There was an issue loading the quiz questions. Please try again"
+        isLoading: false,
+        data: { questions: [], language: null },
+        errorMessage: null
     })
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        async function fetchQuestions() {
-            try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/questions?language=${quizLanguage}`)
+    const triggerGetQuestions = useCallback(async () => {
 
-                const data = await res.json()
+        setState((prev) => ({ ...prev, isLoading: true }))
 
-                if (res.status === 200) {
-                    const matchLanguage = LANGUAGES.find((lang) => lang.slug === data.language)
+        const { data, errorMessage } = await fetchQuestions(quizLanguage)
 
-                    setState((prevState) => ({
-                        ...prevState,
-                        data: { questions: data.questions, language: matchLanguage! }
-                    }))
-
-                    dispatch(setQuizStarted(true))
-                    dispatch(setQuizLanguage(matchLanguage!))
-
-                } else {
-                    setState((prevState) => ({
-                        ...prevState,
-                        isError: true,
-                        errorMessage: data.message
-                    }))
-                }
-
-            } catch {
-                setState((prevState) => ({
-                    ...prevState,
-                    isError: true,
-                    errorMessage: "There was an issue loading the quiz questions. Please try again"
-                }))
-            }
+        if (data.language && data.questions.length > 0) {
+            dispatch(setQuizLanguage(data.language))
+            dispatch(setQuizStarted(true))
         }
 
-        fetchQuestions()
+        setState({
+            isLoading: false,
+            data,
+            errorMessage
+        })
 
-    }, [quizLanguage, dispatch])
+    }, [dispatch, quizLanguage])
 
     return {
+        triggerGetQuestions,
+        isLoading: state.isLoading,
         questions: state.data.questions,
         language: state.data.language,
-        isError: state.isError,
         errorMessage: state.errorMessage
     }
 }
