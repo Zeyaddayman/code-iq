@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, ReactNode } from "react"
+import { ButtonHTMLAttributes, forwardRef, ReactNode } from "react"
 
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode
@@ -6,15 +6,14 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     width?: "full" | "fit"
 }
 
-const Button = ({ children, className, width = "full", ...rest }: IProps) => {
-    return (
-        <button
-            className={`${className} w-${width} flex rounded-md justify-center text-white p-3 font-semibold`}
-            {...rest}
-        >
-            {children}
-        </button>
-    )
-}
+const Button =  forwardRef<HTMLButtonElement, IProps>(({ children, className, width = "full", ...rest }, ref) => (
+    <button
+        className={`${className} w-${width} flex rounded-md justify-center text-white p-3 font-semibold`}
+        ref={ref}
+        {...rest}
+    >
+        {children}
+    </button>
+))
 
 export default Button

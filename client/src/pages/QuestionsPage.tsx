@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import { selectQuizInfo, setUserAnswers } from "../app/features/quizInfoSlice"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Question from "../components/Question"
 import Controllers from "../components/Controllers"
 import { QUIZ_DURATION } from "../constants"
@@ -28,6 +28,9 @@ const QuestionsPage = () => {
 
     const { userAnswers, quizStarted } = useSelector(selectQuizInfo)
 
+    const [focusIdx, setFocusIdx] = useState(-1)
+    const focusableElementsRef = useRef<(HTMLElement | null)[]>([])
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -40,25 +43,76 @@ const QuestionsPage = () => {
         if (!document.fullscreenElement) finishQuiz()
     }, [finishQuiz])
 
+    const focusTrap = useCallback((e: KeyboardEvent) => {
+        if (e.key === "Tab") {
+            e.preventDefault()
+
+            const firstQuestion = index === 0
+
+            if (e.shiftKey) {
+                setFocusIdx(prev => {
+                    if (prev <= 0) return 4
+                    else if (firstQuestion && prev === 4) return prev - 2
+                    else return prev - 1
+                })
+            }
+            else {
+                setFocusIdx(prev => {
+                    if (prev === 4) return 0
+                    else if (firstQuestion && prev === 2) return prev + 2
+                    else return prev + 1
+                })
+            }
+        }
+    }, [index])
+
+    const focusOnClick = useCallback((e: PointerEvent) => {
+
+        const element = e.target as HTMLElement
+
+        if (element && focusableElementsRef.current.includes(element)) {
+            const index = Number(element.getAttribute("data-index"))
+            setFocusIdx(index)
+        }
+        else {
+            setFocusIdx(-1)
+        }
+    }, [])
+
     const startQuiz = async () => {
         await document.documentElement.requestFullscreen()
 
         window.addEventListener("fullscreenchange", endQuizOnUnFullscreen)
-        window.addEventListener('blur', finishQuiz)
+        window.addEventListener("blur", finishQuiz)
+        window.addEventListener("click", focusOnClick)
 
         await triggerGetQuestions()
     }
 
-
     useEffect(() => {
-        // Exit full screen when quiz ends
+        // Exit full screen and clear event listeners when quiz ends
         return () => {
             window.removeEventListener("fullscreenchange", endQuizOnUnFullscreen)
             window.removeEventListener('blur', finishQuiz)
+            window.removeEventListener("click", focusOnClick)
 
             if (document.fullscreenElement) document.exitFullscreen()
         }
-    }, [endQuizOnUnFullscreen, finishQuiz])
+    }, [endQuizOnUnFullscreen, finishQuiz, focusOnClick])
+
+    useEffect(() => {
+        if (quizStarted) {
+            window.addEventListener("keydown", focusTrap)
+        }
+        return () => {
+            window.removeEventListener("keydown", focusTrap)
+        }
+        // Clean old event listener and add new one when questions index changes
+    }, [quizStarted, focusTrap])
+
+    useEffect(() => {
+        focusableElementsRef.current[focusIdx]?.focus()
+    }, [focusIdx])
 
     if (errorMessage) {
         return <Error title="Failed to Get Questions" text={errorMessage} />
@@ -106,12 +160,14 @@ const QuestionsPage = () => {
                 question={questions[index]}
                 userAnswers={userAnswers}
                 handleChange={handleAnswerChange}
+                focusableElementsRef={focusableElementsRef}
             />
             <Controllers
                 questionsLength={questions.length}
                 index={index}
                 prevQuestion={prevQuestion}
                 nextQuestion={nextQuestion}
+                focusableElementsRef={focusableElementsRef}
             />
         </div>
     )

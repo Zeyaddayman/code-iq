@@ -1,3 +1,4 @@
+import { MutableRefObject } from "react"
 import Button from "./ui/Button"
 
 interface IProps {
@@ -5,9 +6,10 @@ interface IProps {
     index: number
     nextQuestion: () => void
     prevQuestion: () => void
+    focusableElementsRef: MutableRefObject<(HTMLElement | null)[]>
 }
 
-const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IProps) => {
+const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion, focusableElementsRef }: IProps) => {
     const isFirstQuestion = index === 0
     const isLastQuestion = index === questionsLength - 1
     return (
@@ -16,6 +18,8 @@ const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IPr
                 width="full"
                 className={`${isFirstQuestion ? "invisible" : null} bg-[#e8e8e8] !text-secondary`}
                 onClick={prevQuestion}
+                ref={(el) => (focusableElementsRef.current[3] = el)}
+                data-index={3}
             >
                 Previous
             </Button>
@@ -23,6 +27,8 @@ const Controllers = ({ questionsLength, index, nextQuestion, prevQuestion }: IPr
                 width="full"
                 className={`${isLastQuestion ? "bg-red-500" : "bg-primary"}`}
                 onClick={nextQuestion}
+                ref={(el) => (focusableElementsRef.current[4] = el)}
+                data-index={4}
             >
                 {isLastQuestion ? "Finish" : "Next"}
             </Button>
