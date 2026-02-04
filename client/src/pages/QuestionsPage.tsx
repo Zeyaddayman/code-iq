@@ -66,7 +66,7 @@ const QuestionsPage = () => {
         }
     }, [index])
 
-    const focusOnClick = useCallback((e: PointerEvent) => {
+    const focusOnClick = useCallback((e: MouseEvent) => {
 
         const element = e.target as HTMLElement
 
