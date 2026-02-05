@@ -1,6 +1,6 @@
 # 👨‍💻 Code IQ
 
-A minimal and efficient quiz platform designed for developers to test their coding knowledge.
+A quiz application to test programmers knowledge of various programming languages. Built with MERN stack, Multiple themes, Timer for each quiz, Result display at the end of the quiz, Highlights incorrect answers with correct solutions, Stores and displays previous quiz results.
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://code-iq.netlify.app)
 
@@ -8,13 +8,13 @@ A minimal and efficient quiz platform designed for developers to test their codi
 
 ## 🚀 Features
 
-* **Custom Themes** – Choose from multiple color schemes.
+* **Custom Themes**
 * **Multi-Language** – Questions covering various programming languages.
-* **Randomized Questions** – Every quiz session pulls a random set of questions.
-* **Quiz Timer** – Tracked sessions for every quiz.
-* **Anti-Cheat** – Built-in measures to ensure fair play.
-* **Instant Results** – Immediate performance summary at the end.
-* **Smart Review** – Highlights mistakes with the correct solutions.
+* **Randomized Questions**
+* **Quiz Timer**
+* **Anti-Cheat** – Measures to ensure fair play.
+* **Instant Results**
+* **Review** – Highlights mistakes with the correct solutions.
 * **Score History** – View and track your previous results.
 
 ---
@@ -44,6 +44,21 @@ A minimal and efficient quiz platform designed for developers to test their codi
 * **Answer Masking:** Correct answers are never sent to the client; they remain secure on the server.
 * **Visibility Monitoring:** Event listeners detect if a user exits fullscreen or switches tabs, ending the quiz immediately.
 * **Server-Side Validation:** Quiz logic and scoring are processed entirely on the server to prevent score manipulation.
+
+### ⌨️ Keyboard Navigation & Focus Management
+**The Challenge:** Keyboard users were unable to stay within the quiz. Pressing Tab on the last item would jump focus out of the quiz and ends it, creating an inaccessible experience.
+
+**The Solution:** I added a focus trap to keep keyboard navigation within the quiz. Now, when users tab past the last option, the focus loops back to the first element, preventing them from accidentally exiting the quiz.
+
+#### **Before: Broken Flow**
+![Broken keyboard flow - focus exits the quiz](https://github.com/user-attachments/assets/64c583bc-ba41-43f8-bc5e-817fd413fa76)
+
+*Pressing Tab on the final quiz element would immediately exit the quiz interface.*
+
+#### **After: Fixed with Focus Trap**
+![Fixed focus trap in action](https://github.com/user-attachments/assets/87c26c1c-2e2a-4836-9ae4-1a815bbcece9)
+
+*Focus now cycles seamlessly within the quiz container.*
 
 ---
 
