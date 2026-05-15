@@ -5,7 +5,7 @@ const LANGUAGES = [
     'javascript',
     'python',
     'java',
-    'c-plus-plus',
+    'c_plus_plus',
 ]
 
 module.exports = {

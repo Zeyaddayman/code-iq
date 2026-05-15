@@ -9,11 +9,11 @@ router.get('/', async (req, res) => {
     const { language } = req.query
 
     if (!language) {
-        return res.status(400).json({status: 'failed', message: "Programming language required"})
+        return res.status(400).json({ status: 'failed', message: "Programming language required" })
     }
 
     if (!LANGUAGES.includes(language)) {
-        return res.status(400).json({status: 'failed', message: "Unsupported programming language"})
+        return res.status(400).json({ status: 'failed', message: "Unsupported programming language" })
     }
 
     const allLanguageQuestions = await db.question.findMany({

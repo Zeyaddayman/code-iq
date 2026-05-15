@@ -5,6 +5,7 @@ require('dotenv').config()
 
 const questionsRouter = require('./routes/questions.route')
 const resultRouter = require('./routes/result.route')
+const testDataRouter = require('./routes/test-data.route')
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(express.json())
 
 app.use('/api/questions', questionsRouter)
 app.use('/api/result', resultRouter)
+app.use('/api/test-data', testDataRouter)
 
 app.listen(process.env.PORT, () => {
     console.log(`listening on port: ${process.env.PORT}`)

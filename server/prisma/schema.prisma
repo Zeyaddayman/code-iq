@@ -9,8 +9,17 @@ datasource db {
 
 model Question {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
+  title       String    @unique
   answers     String[]
   correct     String
-  language    String
+  language    Language
+
+  @@map("question")
+}
+
+enum Language {
+  javascript
+  python
+  java
+  c_plus_plus
 }
